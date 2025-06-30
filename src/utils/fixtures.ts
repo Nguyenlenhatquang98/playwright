@@ -4,6 +4,7 @@ import ElectronicComponentsSuppliesPage from '@pages/ElectronicComponentsSupplie
 import MenuSectionPage from '@pages/MenuSection.page';
 import CartPage from '@pages/Cart.page';
 import CheckoutPage from '@pages/Checkout.page';
+import ShopPage from '@pages/Shop.page';
 
 type Pages = {
     loginPage: LoginPage;
@@ -11,6 +12,7 @@ type Pages = {
     menuSectionPage: MenuSectionPage;
     cartPage: CartPage;
     checkoutPage: CheckoutPage;
+    shopPage: ShopPage;
 };
 
 export const test = base.extend<{ pages: Pages }>({
@@ -20,8 +22,12 @@ export const test = base.extend<{ pages: Pages }>({
       electronicComponentsSuppliesPage: new ElectronicComponentsSuppliesPage(page),
       menuSectionPage: new MenuSectionPage(page),
       cartPage: new CartPage(page),
-      checkoutPage: new CheckoutPage(page)
+      checkoutPage: new CheckoutPage(page),
+      shopPage: new ShopPage(page)
     };
+
+    await pages.loginPage.login();
+
     await use(pages);
   },
 });

@@ -1,14 +1,11 @@
-import { test, expect } from '@tests/fixtures';
+import { test, expect } from 'src/utils/fixtures';
 import customerInfo from '../src/data/checkoutInfo.json';
 
 test('Verify users can buy an item successfully', async({ page, pages }) => {
-    const { loginPage, electronicComponentsSuppliesPage ,menuSectionPage, cartPage, checkoutPage } = pages;
+    const { electronicComponentsSuppliesPage ,menuSectionPage, cartPage, checkoutPage } = pages;
     
     // 1. Open browser and go to https://demo.testarchitect.com/
     // 2. Login with valid credentials 
-
-    await loginPage.login();
-    await expect(page).toHaveTitle(/TestArchitect Sample Website/);
 
     // 3. Navigate to All departments section
     // 4. Select Electronic Components & Supplies
@@ -19,13 +16,13 @@ test('Verify users can buy an item successfully', async({ page, pages }) => {
     await expect(page.locator('.products-grid')).toBeVisible();
 
     // 6. Switch to list view
-    await electronicComponentsSuppliesPage.switchMode('list');
+    await menuSectionPage.switchMode('list');
     
     // 7. Verify items shown as list 
     await expect(page.locator('.products-list')).toBeVisible();
 
     // switch back grid for not conflict next time
-    await electronicComponentsSuppliesPage.switchMode('grid');
+    await menuSectionPage.switchMode('grid');
     await expect(page.locator('.products-grid')).toBeVisible();
     
     // 8. Select any item randomly to purchase
@@ -66,10 +63,10 @@ test('Verify users can buy an item successfully', async({ page, pages }) => {
     await expect(page.locator('address')).toBeVisible();
     const addressText = await page.locator('address').innerText();
     const normalized = addressText.replace(/\s+/g, ' ').trim();
-    await expect(normalized).toContain(customerInfo.firstname);
-    await expect(normalized).toContain(customerInfo.lastname);
-    await expect(normalized).toContain(customerInfo.city);
-    await expect(normalized).toContain(customerInfo.phonenumber);
-    await expect(normalized).toContain(customerInfo.email);
+    expect(normalized).toContain(customerInfo.firstname);
+    expect(normalized).toContain(customerInfo.lastname);
+    expect(normalized).toContain(customerInfo.city);
+    expect(normalized).toContain(customerInfo.phonenumber);
+    expect(normalized).toContain(customerInfo.email);
 
 });

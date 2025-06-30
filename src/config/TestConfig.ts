@@ -1,7 +1,8 @@
-export class TestConfig {
+import dotenv from 'dotenv';
+dotenv.config();
 
-  static readonly baseURL = 'https://demo.testarchitect.com/';
-  static readonly username = 'quang.nhat.nguyen@agest.vn';
-  static readonly password = 'Test123';
-
-}
+export const TestConfig = {
+  baseURL: process.env.BASE_URL,
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
+};
