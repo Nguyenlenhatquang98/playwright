@@ -8,7 +8,8 @@
     "paths": {
       "@pages/*": ["src/pages/*"],
       "@config/*": ["src/config/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["tests/*"],
+      "@utils/*": ["src/utils/*"]
     }
   }
 }

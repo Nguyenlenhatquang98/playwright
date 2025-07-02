@@ -1,11 +1,10 @@
 import { test, expect } from "src/utils/fixtures";
-import customerInfo from "../src/data/checkoutInfo.json";
 
-test("Verify users can buy multiple item successfully", async ({
+test("Verify users can buy an item using different payment methods (all payment methods)", async ({
   page,
   pages,
 }) => {
-  const { shopPage, menuSectionPage, cartPage, checkoutPage } = pages;
+  const { menuSectionPage, cartPage, checkoutPage, shopPage } = pages;
 
   // 1. Open browser and go to https://demo.testarchitect.com/
   // 2. Login with valid credentials
@@ -29,7 +28,7 @@ test("Verify users can buy multiple item successfully", async ({
   // 11. Verify item details in mini content
   expect(
     await cartPage.verifyItemDetailsOrderInCartPage(
-      "DJI Mavic Pro Camera Drone"
+      "Beats Solo3 Wireless On-Ear"
     )
   ).toHaveCount(1);
 
@@ -42,9 +41,13 @@ test("Verify users can buy multiple item successfully", async ({
   // 14. Verify item details in order
   expect(
     await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
-      "DJI Mavic Pro Camera Drone"
+      "Beats Solo3 Wireless On-Ear"
     )
   ).toHaveCount(1);
+
+  // chose method
+
+  await checkoutPage.choosePayMethod("Cash on delivery");
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInfomation();
@@ -56,11 +59,6 @@ test("Verify users can buy multiple item successfully", async ({
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 18. Verify the Order details with billing and item information
-  const addressText = await checkoutPage.billingAddressDetails.innerText();
-  const normalized = addressText.replace(/\s+/g, " ").trim();
-  expect(normalized).toContain(customerInfo.firstname);
-  expect(normalized).toContain(customerInfo.lastname);
-  expect(normalized).toContain(customerInfo.city);
-  expect(normalized).toContain(customerInfo.phonenumber);
-  expect(normalized).toContain(customerInfo.email);
+  const addressText = await checkoutPage.paymentMethod.textContent();
+  expect(addressText).toEqual("Cash on delivery");
 });

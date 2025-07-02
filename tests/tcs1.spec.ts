@@ -1,72 +1,82 @@
-import { test, expect } from 'src/utils/fixtures';
-import customerInfo from '../src/data/checkoutInfo.json';
+import { test, expect } from "src/utils/fixtures";
+import customerInfo from "../src/data/checkoutInfo.json";
 
-test('Verify users can buy an item successfully', async({ page, pages }) => {
-    const { electronicComponentsSuppliesPage ,menuSectionPage, cartPage, checkoutPage } = pages;
-    
-    // 1. Open browser and go to https://demo.testarchitect.com/
-    // 2. Login with valid credentials 
+test("Verify users can buy an item successfully", async ({ page, pages }) => {
+  const {
+    electronicComponentsSuppliesPage,
+    menuSectionPage,
+    cartPage,
+    checkoutPage,
+  } = pages;
 
-    // 3. Navigate to All departments section
-    // 4. Select Electronic Components & Supplies
-    await menuSectionPage.navigateToDepartment('Electronic Components & Supplies');
-    await expect(page).toHaveTitle(new RegExp('Electronic Components & Supplies'));
+  // 1. Open browser and go to https://demo.testarchitect.com/
+  // 2. Login with valid credentials
 
-    // 5. Verify items shown as grid
-    await expect(page.locator('.products-grid')).toBeVisible();
+  // 3. Navigate to All departments section
+  // 4. Select Electronic Components & Supplies
+  await menuSectionPage.navigateToDepartment(
+    "Electronic Components & Supplies"
+  );
+  await expect(page).toHaveTitle(
+    new RegExp("Electronic Components & Supplies")
+  );
 
-    // 6. Switch to list view
-    await menuSectionPage.switchMode('list');
-    
-    // 7. Verify items shown as list 
-    await expect(page.locator('.products-list')).toBeVisible();
+  // 5. Verify items shown as grid
+  await menuSectionPage.switchMode("grid");
+  await expect(page.locator(".products-grid")).toBeVisible();
 
-    // switch back grid for not conflict next time
-    await menuSectionPage.switchMode('grid');
-    await expect(page.locator('.products-grid')).toBeVisible();
-    
-    // 8. Select any item randomly to purchase
-    // 9. Click 'Add to Cart'
-    await electronicComponentsSuppliesPage.addToCart('DJI Mavic Pro Camera Drone');
+  // 6. Switch to list view
+  await menuSectionPage.switchMode("list");
 
-    // 10. Go to the cart 
-    
-    await menuSectionPage.navigateToCart();
-    await expect(page).toHaveTitle(new RegExp('Cart'));
+  // 7. Verify items shown as list
+  await expect(page.locator(".products-list")).toBeVisible();
 
-    // 11. Verify item details in mini content
-    const items = page.locator('.product-title');
-    const filtered = items.filter({hasText: 'DJI Mavic Pro Camera Drone'});
-    await expect(filtered).toHaveCount(1);
+  // 8. Select any item randomly to purchase
+  // 9. Click 'Add to Cart'
+  await electronicComponentsSuppliesPage.addToCart(
+    "DJI Mavic Pro Camera Drone"
+  );
 
-    // 12. Click on Checkout
-    await cartPage.proceedToCheckout();
+  // 10. Go to the cart
 
-    // 13. Verify Checkbout page displays
-    await expect(page).toHaveTitle(new RegExp('Checkout'));
+  await menuSectionPage.navigateToCart();
+  await expect(page).toHaveTitle(new RegExp("Cart"));
 
-    // 14. Verify item details in order
-    const orderItems = page.locator('td.product-name')
-    const orderFiltered = orderItems.filter({hasText: 'DJI Mavic Pro Camera Drone'});
-    await expect(orderFiltered).toHaveCount(1);
+  // 11. Verify item details in mini content
+  expect(
+    await cartPage.verifyItemDetailsOrderInCartPage(
+      "DJI Mavic Pro Camera Drone"
+    )
+  ).toHaveCount(1);
 
-    // 15. Fill the billing details with default payment method
-    await checkoutPage.fillOrderInfomation();
+  // 12. Click on Checkout
+  await cartPage.proceedToCheckout();
 
-    // 16. Click on PLACE ORDER
-    await checkoutPage.placeOrder();
+  // 13. Verify Checkbout page displays
+  await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-    // 17. Verify Order status page displays
-    await expect(page).toHaveTitle(new RegExp('Checkout'));
+  // 14. Verify item details in order
+  expect(
+    await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
+      "DJI Mavic Pro Camera Drone"
+    )
+  ).toHaveCount(1);
 
-    // 18. Verify the Order details with billing and item information
-    await expect(page.locator('address')).toBeVisible();
-    const addressText = await page.locator('address').innerText();
-    const normalized = addressText.replace(/\s+/g, ' ').trim();
-    expect(normalized).toContain(customerInfo.firstname);
-    expect(normalized).toContain(customerInfo.lastname);
-    expect(normalized).toContain(customerInfo.city);
-    expect(normalized).toContain(customerInfo.phonenumber);
-    expect(normalized).toContain(customerInfo.email);
+  // 15. Fill the billing details with default payment method
+  await checkoutPage.fillOrderInfomation();
 
+  // 16. Click on PLACE ORDER
+  await checkoutPage.placeOrder();
+
+  // 17. Verify Order status page displays
+  await expect(page).toHaveTitle(new RegExp("Checkout"));
+
+  // 18. Verify the Order details with billing and item information
+  const addressText = await checkoutPage.billingAddressDetails.innerText();
+  const normalized = addressText.replace(/\s+/g, " ").trim();
+  expect(normalized).toContain(customerInfo.firstname);
+  expect(normalized).toContain(customerInfo.lastname);
+  expect(normalized).toContain(customerInfo.city);
+  expect(normalized).toContain(customerInfo.phonenumber);
+  expect(normalized).toContain(customerInfo.email);
 });
