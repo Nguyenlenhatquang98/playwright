@@ -1,5 +1,6 @@
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common";
+import { CommonUtils } from "@utils/common-utils";
+import { CommonSteps } from "@utils/common-steps";
 
 export default class ShopPage {
   readonly closeAdButton = this.page.locator("button.pum-close");
@@ -18,11 +19,8 @@ export default class ShopPage {
     await this.page.selectOption(".orderby", { label: `${sortingMethod}` });
   }
 
-  async addToCart(productName: string) {
-    await this.page
-      .locator(`[data-product_name="${productName}"]`)
-      .nth(1)
-      .click();
+  async addToCart(productName: string | string[]) {
+    CommonSteps.addToCart(this.page, productName);
   }
 
   async verifyOrderItemSorting(sortingMethod: "greater" | "less") {

@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common";
+import { CommonUtils } from "@utils/common-utils";
 
 export default class CartPage {
   readonly proceedButton = this.page.getByText("Proceed to checkout");
@@ -11,7 +11,7 @@ export default class CartPage {
     await this.proceedButton.click();
   }
 
-  async verifyItemDetailsOrderInCartPage(productName: string) {
+  async verifyItemDetailsOrderInCartPage(productName: string | string[]) {
     return CommonUtils.filterLocatorByName(this.orderItems, productName);
   }
 }

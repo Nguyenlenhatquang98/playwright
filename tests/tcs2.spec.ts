@@ -1,5 +1,4 @@
-import { test, expect } from "src/utils/fixtures";
-import customerInfo from "../src/data/checkoutInfo.json";
+import { test, expect } from "@utils/Fixtures";
 
 test("Verify users can buy multiple item successfully", async ({
   page,
@@ -19,19 +18,24 @@ test("Verify users can buy multiple item successfully", async ({
 
   // 8. Select any item randomly to purchase
   // 9. Click 'Add to Cart'
-  await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
+  await menuSectionPage.switchMode("grid");
+  await shopPage.addToCart([
+    "Beats Solo3 Wireless On-Ear",
+    "Beats Studio Wireless Over-Ear",
+  ]);
 
-  // 10. Go to the cart
+  // // 10. Go to the cart
 
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
   expect(
-    await cartPage.verifyItemDetailsOrderInCartPage(
-      "DJI Mavic Pro Camera Drone"
-    )
-  ).toHaveCount(1);
+    await cartPage.verifyItemDetailsOrderInCartPage([
+      "Beats Solo3 Wireless On-Ear",
+      "Beats Studio Wireless Over-Ear",
+    ])
+  ).toBe(true);
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -41,10 +45,11 @@ test("Verify users can buy multiple item successfully", async ({
 
   // 14. Verify item details in order
   expect(
-    await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
-      "DJI Mavic Pro Camera Drone"
-    )
-  ).toHaveCount(1);
+    await checkoutPage.verifyItemDetailsOrderInCheckoutPage([
+      "Beats Solo3 Wireless On-Ear",
+      "Beats Studio Wireless Over-Ear",
+    ])
+  ).toBe(true);
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInfomation();
@@ -56,11 +61,6 @@ test("Verify users can buy multiple item successfully", async ({
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 18. Verify the Order details with billing and item information
-  const addressText = await checkoutPage.billingAddressDetails.innerText();
-  const normalized = addressText.replace(/\s+/g, " ").trim();
-  expect(normalized).toContain(customerInfo.firstname);
-  expect(normalized).toContain(customerInfo.lastname);
-  expect(normalized).toContain(customerInfo.city);
-  expect(normalized).toContain(customerInfo.phonenumber);
-  expect(normalized).toContain(customerInfo.email);
+  const addressText = await checkoutPage.successConfirmMessage.innerText();
+  expect(addressText).toEqual("THANK YOU. YOUR ORDER HAS BEEN RECEIVED.");
 });

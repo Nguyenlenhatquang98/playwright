@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common";
+import { CommonUtils } from "@utils/common-utils";
 import customerInfo from "../data/checkoutInfo.json";
 
 export default class CheckoutPage {
@@ -28,6 +28,12 @@ export default class CheckoutPage {
   readonly paymentMethod = this.page.locator(
     ".woocommerce-order-overview__payment-method.method strong"
   );
+  readonly successConfirmMessage = this.page.locator(
+    ".woocommerce-notice--success"
+  );
+  readonly orderNumber = this.page.locator(
+    ".woocommerce-order-overview__order.order strong"
+  );
 
   constructor(private readonly page: Page) {}
 
@@ -55,7 +61,7 @@ export default class CheckoutPage {
     await this.page.getByRole("button", { name: "Place order" }).click();
   }
 
-  async verifyItemDetailsOrderInCheckoutPage(productName: string) {
+  async verifyItemDetailsOrderInCheckoutPage(productName: string | string[]) {
     return CommonUtils.filterLocatorByName(this.orderItems, productName);
   }
 }

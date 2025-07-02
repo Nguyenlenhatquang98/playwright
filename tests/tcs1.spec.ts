@@ -1,4 +1,5 @@
-import { test, expect } from "src/utils/fixtures";
+import { test, expect } from "@utils/Fixtures";
+import { CommonSteps } from "@utils/common-steps";
 import customerInfo from "../src/data/checkoutInfo.json";
 
 test("Verify users can buy an item successfully", async ({ page, pages }) => {
@@ -47,7 +48,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
     await cartPage.verifyItemDetailsOrderInCartPage(
       "DJI Mavic Pro Camera Drone"
     )
-  ).toHaveCount(1);
+  ).toBe(true);
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -60,7 +61,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
     await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
       "DJI Mavic Pro Camera Drone"
     )
-  ).toHaveCount(1);
+  ).toBe(true);
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInfomation();

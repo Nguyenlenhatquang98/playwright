@@ -1,4 +1,4 @@
-import { test, expect } from "src/utils/fixtures";
+import { test, expect } from "@utils/Fixtures";
 
 test("Verify users can buy an item using different payment methods (all payment methods)", async ({
   page,
@@ -30,7 +30,7 @@ test("Verify users can buy an item using different payment methods (all payment 
     await cartPage.verifyItemDetailsOrderInCartPage(
       "Beats Solo3 Wireless On-Ear"
     )
-  ).toHaveCount(1);
+  ).toBe(true);
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -43,7 +43,7 @@ test("Verify users can buy an item using different payment methods (all payment 
     await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
       "Beats Solo3 Wireless On-Ear"
     )
-  ).toHaveCount(1);
+  ).toBe(true);
 
   // chose method
 

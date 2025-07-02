@@ -14,8 +14,8 @@ export default class LoginPage {
   async login() {
     await this.page.goto(TestConfig.baseURL);
     await this.loginLink.click();
-    await this.usernameLabel.fill(TestConfig.username);
-    await this.passwordLabel.fill(TestConfig.password);
+    await this.usernameLabel.fill(TestConfig.app_username);
+    await this.passwordLabel.fill(TestConfig.app_password);
     await this.loginButton.click();
   }
 }

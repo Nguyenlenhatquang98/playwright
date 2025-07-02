@@ -1,4 +1,4 @@
-import { test, expect } from "src/utils/fixtures";
+import { test, expect } from "@utils/Fixtures";
 
 test("Verify users can sort items by price", async ({ page, pages }) => {
   const { menuSectionPage, shopPage } = pages;
