@@ -52,7 +52,7 @@ test("Verify users can buy multiple item successfully", async ({
   ).toBe(true);
 
   // 15. Fill the billing details with default payment method
-  await checkoutPage.fillOrderInfomation();
+  await checkoutPage.fillOrderInfomation("full");
 
   // 16. Click on PLACE ORDER
   await checkoutPage.placeOrder();

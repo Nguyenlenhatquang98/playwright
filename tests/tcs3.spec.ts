@@ -50,7 +50,7 @@ test("Verify users can buy an item using different payment methods (all payment 
   await checkoutPage.choosePayMethod("Cash on delivery");
 
   // 15. Fill the billing details with default payment method
-  await checkoutPage.fillOrderInfomation();
+  await checkoutPage.fillOrderInfomation("full");
 
   // 16. Click on PLACE ORDER
   await checkoutPage.placeOrder();

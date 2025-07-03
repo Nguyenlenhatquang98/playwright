@@ -12,7 +12,6 @@ export default class LoginPage {
   constructor(private readonly page: Page) {}
 
   async login() {
-    await this.page.goto(TestConfig.baseURL);
     await this.loginLink.click();
     await this.usernameLabel.fill(TestConfig.app_username);
     await this.passwordLabel.fill(TestConfig.app_password);

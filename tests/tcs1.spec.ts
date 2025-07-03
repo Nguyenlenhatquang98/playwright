@@ -1,6 +1,5 @@
 import { test, expect } from "@utils/Fixtures";
-import { CommonSteps } from "@utils/common-steps";
-import customerInfo from "../src/data/checkoutInfo.json";
+import customerInfo from "@data/checkoutInfo.json";
 
 test("Verify users can buy an item successfully", async ({ page, pages }) => {
   const {
@@ -64,7 +63,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   ).toBe(true);
 
   // 15. Fill the billing details with default payment method
-  await checkoutPage.fillOrderInfomation();
+  await checkoutPage.fillOrderInfomation("full");
 
   // 16. Click on PLACE ORDER
   await checkoutPage.placeOrder();
@@ -75,9 +74,9 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   // 18. Verify the Order details with billing and item information
   const addressText = await checkoutPage.billingAddressDetails.innerText();
   const normalized = addressText.replace(/\s+/g, " ").trim();
-  expect(normalized).toContain(customerInfo.firstname);
-  expect(normalized).toContain(customerInfo.lastname);
-  expect(normalized).toContain(customerInfo.city);
-  expect(normalized).toContain(customerInfo.phonenumber);
-  expect(normalized).toContain(customerInfo.email);
+  expect(normalized).toContain(customerInfo.full.firstname);
+  expect(normalized).toContain(customerInfo.full.lastname);
+  expect(normalized).toContain(customerInfo.full.city);
+  expect(normalized).toContain(customerInfo.full.phonenumber);
+  expect(normalized).toContain(customerInfo.full.email);
 });

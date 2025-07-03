@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { CommonUtils } from "@utils/common-utils";
-import customerInfo from "../data/checkoutInfo.json";
+import customerData from "@data/checkoutInfo.json";
 
 export default class CheckoutPage {
   readonly firstNameLabel = this.page.locator("label", {
@@ -34,6 +34,7 @@ export default class CheckoutPage {
   readonly orderNumber = this.page.locator(
     ".woocommerce-order-overview__order.order strong"
   );
+  readonly errorMessages = this.page.locator("ul.woocommerce-error strong");
 
   constructor(private readonly page: Page) {}
 
@@ -41,20 +42,54 @@ export default class CheckoutPage {
     await this.page.getByLabel(method).click();
   }
 
-  async fillOrderInfomation() {
-    await this.firstNameLabel.fill(customerInfo.firstname);
-    await this.lastNameLabel.fill(customerInfo.lastname);
+  async fillOrderInfomation(status: "full" | "missing") {
+    const customerInfo = customerData[status];
+
+    const fieldMap: { [key: string]: Locator } = {
+      firstname: this.firstNameLabel,
+      lastname: this.lastNameLabel,
+      address: this.streetAddressLabel,
+      city: this.townLabel,
+      zipcode: this.zipCodeLabel,
+      phonenumber: this.phoneLabel,
+      email: this.emailLabel,
+    };
+
+    for (const key in fieldMap) {
+      const value = customerInfo[key] ?? "";
+      await fieldMap[key].fill(value);
+    }
+
     await this.countryfilterButton.click();
-    await this.searchInput.fill(customerInfo.country);
+    await this.searchInput.fill(customerInfo.country ?? "");
     await this.searchInput.press("Enter");
-    await this.streetAddressLabel.fill(customerInfo.address);
-    await this.townLabel.fill(customerInfo.city);
+
     await this.statefilterButton.click();
-    await this.searchInput.fill(customerInfo.state);
+    await this.searchInput.fill(customerInfo.state ?? "");
     await this.searchInput.press("Enter");
-    await this.zipCodeLabel.fill(customerInfo.zipcode);
-    await this.phoneLabel.fill(customerInfo.phonenumber);
-    await this.emailLabel.fill(customerInfo.email);
+  }
+
+  async verifyErrorMessage(status: "full" | "missing") {
+    await this.page.waitForTimeout(3000);
+    const customerInfo = customerData[status];
+
+    const requiredFields = [
+      "firstname",
+      "lastname",
+      "country",
+      "address",
+      "city",
+      "state",
+      "zipcode",
+      "phonenumber",
+      "email",
+    ];
+
+    const missingFields = requiredFields.filter(
+      (field) => !customerInfo[field]
+    );
+
+    return CommonUtils.filterLocatorByName(this.errorMessages, missingFields);
   }
 
   async placeOrder() {

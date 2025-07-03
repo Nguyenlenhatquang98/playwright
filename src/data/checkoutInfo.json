@@ -1,4 +1,5 @@
 {
+  "full": {
     "firstname": "Quang",
     "lastname": "Nguyen",
     "country": "United States",
@@ -8,4 +9,14 @@
     "zipcode": "33139",
     "phonenumber": "+844042325232",
     "email": "quang.nhat.nguyen@agest.vn"
+  },
+  "missing": {
+    "firstname": "Quang",
+    "lastname": "Nguyen",
+    "country": "United States",
+    "state": "Alabama",
+    "zipcode": "33139",
+    "phonenumber": "+844042325232",
+    "email": "quang.nhat.nguyen@agest.vn"
+  }
 }

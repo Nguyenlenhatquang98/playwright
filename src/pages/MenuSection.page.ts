@@ -28,7 +28,9 @@ export default class MenuSectionPage {
   }
 
   async navigateToMenuItem(item: string) {
-    await this.page.getByText(item).nth(1).click();
+    await this.page
+      .locator("div.menu-main-container >> nth=1 >> a", { hasText: `${item}` })
+      .click();
   }
 
   async navigateToMyAccount() {

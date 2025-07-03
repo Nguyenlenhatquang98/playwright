@@ -1,71 +1,71 @@
-import myAccountPage from "@pages/MyAccount.page";
 import { test, expect } from "@utils/Fixtures";
+import customerInfo from "@data/checkoutInfo.json";
 
-test("Verify users can buy multiple item successfully", async ({
-  page,
-  pages,
-}) => {
+test("Verify orders appear in order history", async ({ page, pages }) => {
   const { shopPage, menuSectionPage, cartPage, checkoutPage, myAccountPage } =
     pages;
 
-  // 1. Open browser and go to https://demo.testarchitect.com/
-  // 2. Login with valid credentials
-
-  // 3. Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
 
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
   await shopPage.turnOffAd();
 
+  await menuSectionPage.switchMode("grid");
+  await shopPage.addToCart([
+    "Beats Solo3 Wireless On-Ear",
+    "Beats Studio Wireless Over-Ear",
+  ]);
+
+  await menuSectionPage.navigateToCart();
+  await expect(page).toHaveTitle(new RegExp("Cart"));
+
+  expect(
+    await cartPage.verifyItemDetailsOrderInCartPage([
+      "Beats Solo3 Wireless On-Ear",
+      "Beats Studio Wireless Over-Ear",
+    ])
+  ).toBe(true);
+
+  await cartPage.proceedToCheckout();
+
+  await expect(page).toHaveTitle(new RegExp("Checkout"));
+
+  expect(
+    await checkoutPage.verifyItemDetailsOrderInCheckoutPage([
+      "Beats Solo3 Wireless On-Ear",
+      "Beats Studio Wireless Over-Ear",
+    ])
+  ).toBe(true);
+
+  await checkoutPage.fillOrderInfomation("full");
+
+  await checkoutPage.placeOrder();
+
+  await expect(page).toHaveTitle(new RegExp("Checkout"));
+
+  const orderId = await checkoutPage.orderNumber.textContent();
+
+  // 1. Go to My Account page
   await menuSectionPage.navigateToMyAccount();
   await expect(page).toHaveTitle(/My Account/);
 
+  // 2. Click on Orders in left navigation
   await myAccountPage.navigateToOrders();
-  // // 8. Select any item randomly to purchase
-  // // 9. Click 'Add to Cart'
-  // await menuSectionPage.switchMode("grid");
-  // await shopPage.addToCart([
-  //   "Beats Solo3 Wireless On-Ear",
-  //   "Beats Studio Wireless Over-Ear",
-  // ]);
+  await myAccountPage.viewOrder(orderId);
 
-  // // // 10. Go to the cart
+  // 3. Verify order details
+  expect(
+    await myAccountPage.verifyItemDetailsOrderInOrderPage([
+      "Beats Solo3 Wireless On-Ear",
+      "Beats Studio Wireless Over-Ear",
+    ])
+  ).toBe(true);
 
-  // await menuSectionPage.navigateToCart();
-  // await expect(page).toHaveTitle(new RegExp("Cart"));
-
-  // // 11. Verify item details in mini content
-  // expect(
-  //   await cartPage.verifyItemDetailsOrderInCartPage([
-  //     "Beats Solo3 Wireless On-Ear",
-  //     "Beats Studio Wireless Over-Ear",
-  //   ])
-  // ).toBe(true);
-
-  // // 12. Click on Checkout
-  // await cartPage.proceedToCheckout();
-
-  // // 13. Verify Checkbout page displays
-  // await expect(page).toHaveTitle(new RegExp("Checkout"));
-
-  // // 14. Verify item details in order
-  // expect(
-  //   await checkoutPage.verifyItemDetailsOrderInCheckoutPage([
-  //     "Beats Solo3 Wireless On-Ear",
-  //     "Beats Studio Wireless Over-Ear",
-  //   ])
-  // ).toBe(true);
-
-  // // 15. Fill the billing details with default payment method
-  // await checkoutPage.fillOrderInfomation();
-
-  // // 16. Click on PLACE ORDER
-  // await checkoutPage.placeOrder();
-
-  // // 17. Verify Order status page displays
-  // await expect(page).toHaveTitle(new RegExp("Checkout"));
-
-  // // 18. Verify the Order details with billing and item information
-  // const orderId = await checkoutPage.orderNumber.textContent();
+  const addressText = await myAccountPage.billingAddressDetails.innerText();
+  const normalized = addressText.replace(/\s+/g, " ").trim();
+  expect(normalized).toContain(customerInfo.full.firstname);
+  expect(normalized).toContain(customerInfo.full.lastname);
+  expect(normalized).toContain(customerInfo.full.city);
+  expect(normalized).toContain(customerInfo.full.phonenumber);
+  expect(normalized).toContain(customerInfo.full.email);
 });

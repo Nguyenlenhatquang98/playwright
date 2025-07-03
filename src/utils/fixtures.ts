@@ -6,6 +6,7 @@ import CartPage from "@pages/Cart.page";
 import CheckoutPage from "@pages/Checkout.page";
 import ShopPage from "@pages/Shop.page";
 import MyAccountPage from "@pages/MyAccount.page";
+import { TestConfig } from "@config/TestConfig";
 
 type Pages = {
   loginPage: LoginPage;
@@ -17,8 +18,15 @@ type Pages = {
   myAccountPage: MyAccountPage;
 };
 
-export const test = base.extend<{ pages: Pages }>({
-  pages: async ({ page }, use) => {
+type FixtureOptions = {
+  pages: Pages;
+  needsLogin: boolean;
+};
+
+export const test = base.extend<FixtureOptions>({
+  needsLogin: [true, { option: true }],
+
+  pages: async ({ page, needsLogin }, use) => {
     const pages = {
       loginPage: new LoginPage(page),
       electronicComponentsSuppliesPage: new ElectronicComponentsSuppliesPage(
@@ -31,7 +39,15 @@ export const test = base.extend<{ pages: Pages }>({
       myAccountPage: new MyAccountPage(page),
     };
 
-    await pages.loginPage.login();
+    await page.goto(TestConfig.baseURL);
+
+    await page.context().clearCookies();
+    await page.evaluate(() => localStorage.clear());
+    await page.evaluate(() => sessionStorage.clear());
+
+    if (needsLogin) {
+      await pages.loginPage.login();
+    }
 
     await use(pages);
   },
