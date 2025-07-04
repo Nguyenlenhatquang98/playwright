@@ -1,9 +1,9 @@
-import { test, expect } from "@utils/Fixtures";
+import { test, expect } from "@utils/fixtures";
 
 test("Verify users can clear the cart", async ({ page, pages }) => {
   const { shopPage, menuSectionPage, cartPage, checkoutPage } = pages;
 
-  // Open browser and go to https://demo.testarchitect.com/
+  // Open browser and go to url
   // 2. Login with valid credentials
 
   // Go to Shop page

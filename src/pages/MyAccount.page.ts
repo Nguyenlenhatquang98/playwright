@@ -1,6 +1,6 @@
 import { TestConfig } from "@config/TestConfig";
 import { Page, expect } from "@playwright/test";
-import { CommonSteps } from "@utils/common-steps";
+import { CommonSteps } from "@utils/commonSteps";
 
 export default class MyAccountPage {
   readonly orderLink = this.page.locator(

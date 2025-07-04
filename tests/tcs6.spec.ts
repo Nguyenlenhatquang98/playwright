@@ -1,4 +1,4 @@
-import { test, expect } from "@utils/Fixtures";
+import { test, expect } from "@utils/fixtures";
 
 test.use({ needsLogin: false });
 

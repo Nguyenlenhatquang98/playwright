@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import customerData from "@data/checkoutInfo.json";
-import { CommonSteps } from "@utils/common-steps";
+import { CommonSteps } from "@utils/commonSteps";
 
 export default class CheckoutPage {
   readonly firstNameLabel = this.page.locator("label", {

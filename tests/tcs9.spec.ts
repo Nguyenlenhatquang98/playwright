@@ -1,4 +1,4 @@
-import { test, expect } from "@utils/Fixtures";
+import { test, expect } from "@utils/fixtures";
 
 test("Verify users can update quantity of product in cart", async ({
   page,
@@ -6,7 +6,7 @@ test("Verify users can update quantity of product in cart", async ({
 }) => {
   const { shopPage, menuSectionPage, cartPage, checkoutPage } = pages;
 
-  // 1. Open browser and go to https://demo.testarchitect.com/
+  // 1. Open browser and go to url
   // 2. Login with valid credentials
 
   // 3. Go to Shop page

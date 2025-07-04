@@ -1,10 +1,10 @@
-import { CommonUtils } from "@utils/common-utils";
-import { test, expect } from "@utils/Fixtures";
+import { CommonUtils } from "@utils/commonUtils";
+import { test, expect } from "@utils/fixtures";
 
 test("Verify users can post a review", async ({ page, pages }) => {
   const { shopPage, menuSectionPage, productDetailsPage } = pages;
 
-  // 1. Open browser and go to https://demo.testarchitect.com/
+  // 1. Open browser and go to url
   // 2. Login with valid credentials
 
   // 3. Go to Shop page

@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { CommonSteps } from "@utils/common-steps";
+import { CommonSteps } from "@utils/commonSteps";
 
 export default class CartPage {
   readonly proceedButton = this.page.getByText("Proceed to checkout");

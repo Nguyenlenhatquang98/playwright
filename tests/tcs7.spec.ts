@@ -1,4 +1,4 @@
-import { test, expect } from "@utils/Fixtures";
+import { test, expect } from "@utils/fixtures";
 
 test("Ensure proper error handling when mandatory fields are blank", async ({
   page,

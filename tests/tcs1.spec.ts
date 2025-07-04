@@ -1,4 +1,4 @@
-import { test, expect } from "@utils/Fixtures";
+import { test, expect } from "@utils/fixtures";
 import customerInfo from "@data/checkoutInfo.json";
 
 test("Verify users can buy an item successfully", async ({ page, pages }) => {
@@ -9,7 +9,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
     checkoutPage,
   } = pages;
 
-  // 1. Open browser and go to https://demo.testarchitect.com/
+  // 1. Open browser and go to url
   // 2. Login with valid credentials
 
   // 3. Navigate to All departments section

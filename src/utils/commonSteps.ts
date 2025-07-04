@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common-utils";
+import { CommonUtils } from "@utils/commonUtils";
 
 export class CommonSteps {
   static async addToCart(page: Page, productName: string | string[]) {

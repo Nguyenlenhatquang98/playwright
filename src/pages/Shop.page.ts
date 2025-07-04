@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common-utils";
-import { CommonSteps } from "@utils/common-steps";
+import { CommonUtils } from "@utils/commonUtils";
+import { CommonSteps } from "@utils/commonSteps";
 
 export default class ShopPage {
   readonly closeAdButton = this.page.locator("button.pum-close");

@@ -1,4 +1,4 @@
-import { test, expect } from "@utils/Fixtures";
+import { test, expect } from "@utils/fixtures";
 import customerInfo from "@data/checkoutInfo.json";
 
 test("Verify orders appear in order history", async ({ page, pages }) => {

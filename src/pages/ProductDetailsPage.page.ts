@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { CommonSteps } from "@utils/common-steps";
+import { CommonSteps } from "@utils/commonSteps";
 
 export default class ProductDetailsPage {
   readonly reviewButton = this.page.locator("span:has-text('Reviews')");
