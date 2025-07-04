@@ -46,7 +46,6 @@ test("Verify users can buy an item using different payment methods (all payment 
   ).toBe(true);
 
   // chose method
-
   await checkoutPage.choosePayMethod("Cash on delivery");
 
   // 15. Fill the billing details with default payment method

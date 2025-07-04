@@ -24,7 +24,7 @@ test("Verify users can buy multiple item successfully", async ({
     "Beats Studio Wireless Over-Ear",
   ]);
 
-  // // 10. Go to the cart
+  // 10. Go to the cart
 
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));

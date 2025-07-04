@@ -6,18 +6,18 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
 }) => {
   const { shopPage, menuSectionPage, cartPage, checkoutPage } = pages;
 
-  // 2. Navigate to 'Shop' or 'Products' section
+  // Navigate to 'Shop' or 'Products' section
   await menuSectionPage.navigateToMenuItem("Shop");
 
   // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
   await shopPage.turnOffAd();
 
-  // 3. Add a product to cart
+  // Add a product to cart
   await menuSectionPage.switchMode("grid");
   await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
 
-  // 4. Click on Cart button
+  // Click on Cart button
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
@@ -27,7 +27,7 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
     )
   ).toBe(true);
 
-  // 5. Proceed to complete order
+  // Proceed to complete order
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
@@ -38,9 +38,12 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
     )
   ).toBe(true);
 
+  // 1. Leave mandatory fields (address, payment info) blank
   await checkoutPage.fillOrderInfomation("missing");
 
+  //  2. Click 'Confirm Order'
   await checkoutPage.placeOrder();
 
+  // 3. Verify error messages
   expect(await checkoutPage.verifyErrorMessage("missing")).toBe(true);
 });
