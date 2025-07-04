@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { CommonUtils } from "@utils/commonUtils";
 
 export class CommonSteps {
