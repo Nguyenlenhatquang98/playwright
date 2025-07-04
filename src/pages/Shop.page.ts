@@ -30,4 +30,8 @@ export default class ShopPage {
     console.log(listTexts);
     return CommonUtils.isSorted(listTexts, sortingMethod);
   }
+
+  async goToProductDetails(name: string) {
+    CommonSteps.goToProductDetails(this.page, name);
+  }
 }

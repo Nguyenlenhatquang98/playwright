@@ -7,6 +7,7 @@ import CheckoutPage from "@pages/Checkout.page";
 import ShopPage from "@pages/Shop.page";
 import MyAccountPage from "@pages/MyAccount.page";
 import { TestConfig } from "@config/TestConfig";
+import ProductDetailsPage from "@pages/ProductDetailsPage.page";
 
 type Pages = {
   loginPage: LoginPage;
@@ -16,6 +17,7 @@ type Pages = {
   checkoutPage: CheckoutPage;
   shopPage: ShopPage;
   myAccountPage: MyAccountPage;
+  productDetailsPage: ProductDetailsPage;
 };
 
 type FixtureOptions = {
@@ -37,6 +39,7 @@ export const test = base.extend<FixtureOptions>({
       checkoutPage: new CheckoutPage(page),
       shopPage: new ShopPage(page),
       myAccountPage: new MyAccountPage(page),
+      productDetailsPage: new ProductDetailsPage(page),
     };
 
     await page.goto(TestConfig.baseURL);

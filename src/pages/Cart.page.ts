@@ -8,6 +8,10 @@ export default class CartPage {
   readonly updateCartButton = this.page.getByRole("button", {
     name: "Update cart",
   });
+  readonly clearCartButton = this.page.getByText("Clear shopping cart");
+  readonly emptyShoppingCartText = this.page.getByText(
+    "YOUR SHOPPING CART IS EMPTY"
+  );
 
   constructor(private readonly page: Page) {}
 
@@ -38,5 +42,21 @@ export default class CartPage {
     }
 
     await this.page.waitForTimeout(4000);
+  }
+
+  async getQuantityInputValue(name: string) {
+    const base = `div.quantity:has(label:has-text("${name}"))`;
+    const input = this.page.locator(`${base} input`);
+    return Number(await input.inputValue());
+  }
+
+  async clearOrderItems() {
+    await this.clearCartButton.click();
+
+    this.page.once("dialog", async (dialog) => {
+      console.log("Message:", dialog.message());
+      expect(dialog.type()).toBe("confirm");
+      await dialog.accept();
+    });
   }
 }

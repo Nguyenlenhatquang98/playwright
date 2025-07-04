@@ -16,19 +16,29 @@ test("Verify users can update quantity of product in cart", async ({
   await expect(page).toHaveTitle(/Products/);
   await shopPage.turnOffAd();
 
-  // 8. Select any item randomly to purchase
-  // 9. Click 'Add to Cart'
+  // 4. Add a product
   await menuSectionPage.switchMode("grid");
   await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
 
-  // // 10. Go to the cart
-
+  // 5. Go to the cart
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   await cartPage.updateOrderQuantity("Beats Solo3 Wireless On-Ear", "fill", 4);
+
+  expect(
+    await cartPage.getQuantityInputValue("Beats Solo3 Wireless On-Ear")
+  ).toEqual(4);
+
   await cartPage.updateOrderQuantity("Beats Solo3 Wireless On-Ear", "click", 6);
+
+  expect(
+    await cartPage.getQuantityInputValue("Beats Solo3 Wireless On-Ear")
+  ).toEqual(6);
+
   await cartPage.updateOrderQuantity("Beats Solo3 Wireless On-Ear", "click", 5);
 
-  await expect(page).toHaveTitle(new RegExp("Cart"));
+  expect(
+    await cartPage.getQuantityInputValue("Beats Solo3 Wireless On-Ear")
+  ).toEqual(5);
 });

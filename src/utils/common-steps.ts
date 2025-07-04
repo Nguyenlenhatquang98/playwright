@@ -10,4 +10,8 @@ export class CommonSteps {
       page.locator(`[data-product_name="${productName[i]}"]`).nth(1).click();
     }
   }
+
+  static goToProductDetails(page: Page, name: string) {
+    page.getByText(name).click();
+  }
 }
