@@ -15,24 +15,6 @@ export class CommonUtils {
     return [...new Set(list)];
   }
 
-  static async filterLocatorByName(
-    locator: Locator,
-    productName: string | string[]
-  ) {
-    console.log("All textcontent: " + (await locator.allInnerTexts()));
-    if (typeof productName === "string") {
-      productName = productName.trim() === "" ? [] : [productName];
-    }
-    const uniqueList = this.removeDuplicates(productName);
-
-    for (let i = 0; i < uniqueList.length; i++) {
-      console.log("Filter for: " + uniqueList[i]);
-      const count = await locator.filter({ hasText: uniqueList[i] }).count();
-      if (count != 1) return false;
-    }
-    return true;
-  }
-
   static getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }

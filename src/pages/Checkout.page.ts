@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common-utils";
 import customerData from "@data/checkoutInfo.json";
+import { CommonSteps } from "@utils/common-steps";
 
 export default class CheckoutPage {
   readonly firstNameLabel = this.page.locator("label", {
@@ -89,7 +89,7 @@ export default class CheckoutPage {
       (field) => !customerInfo[field]
     );
 
-    return CommonUtils.filterLocatorByName(this.errorMessages, missingFields);
+    return CommonSteps.filterLocatorByName(this.errorMessages, missingFields);
   }
 
   async placeOrder() {
@@ -97,6 +97,6 @@ export default class CheckoutPage {
   }
 
   async verifyItemDetailsOrderInCheckoutPage(productName: string | string[]) {
-    return CommonUtils.filterLocatorByName(this.orderItems, productName);
+    return CommonSteps.filterLocatorByName(this.orderItems, productName);
   }
 }

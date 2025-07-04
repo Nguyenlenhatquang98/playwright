@@ -36,9 +36,4 @@ export default class MenuSectionPage {
   async navigateToMyAccount() {
     await this.myAccountLink.click();
   }
-
-  async switchMode(mode: string) {
-    await this.page.locator(".switch-" + mode).click();
-    await this.page.waitForTimeout(2000);
-  }
 }

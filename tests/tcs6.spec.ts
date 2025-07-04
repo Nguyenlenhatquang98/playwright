@@ -16,7 +16,6 @@ test("Verify users try to buy an item without logging in (As a guest)", async ({
   await shopPage.turnOffAd();
 
   // 3. Add a product to cart
-  await menuSectionPage.switchMode("grid");
   await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
 
   // 4. Click on Cart button

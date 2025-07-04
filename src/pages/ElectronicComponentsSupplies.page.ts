@@ -5,6 +5,10 @@ export default class ElectronicComponentsSuppliesPage {
   constructor(private readonly page: Page) {}
 
   async addToCart(productName: string | string[]) {
-    CommonSteps.addToCart(this.page, productName);
+    await CommonSteps.addToCart(this.page, productName);
+  }
+
+  async switchMode(mode: string) {
+    await CommonSteps.switchMode(this.page, mode);
   }
 }

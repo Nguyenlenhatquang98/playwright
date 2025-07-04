@@ -14,7 +14,7 @@ test("Verify users can sort items by price", async ({ page, pages }) => {
   await shopPage.turnOffAd();
 
   // 4.  Switch view to list
-  await menuSectionPage.switchMode("list");
+  await shopPage.switchMode("list");
 
   // 5. Sort items by price (high to low)
   await shopPage.sortingProduct("Sort by price: high to low");

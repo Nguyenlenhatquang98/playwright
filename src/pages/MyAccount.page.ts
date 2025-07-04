@@ -1,6 +1,6 @@
 import { TestConfig } from "@config/TestConfig";
 import { Page, expect } from "@playwright/test";
-import { CommonUtils } from "@utils/common-utils";
+import { CommonSteps } from "@utils/common-steps";
 
 export default class MyAccountPage {
   readonly orderLink = this.page.locator(
@@ -23,6 +23,6 @@ export default class MyAccountPage {
   }
 
   async verifyItemDetailsOrderInOrderPage(productName: string | string[]) {
-    return CommonUtils.filterLocatorByName(this.orderItems, productName);
+    return CommonSteps.filterLocatorByName(this.orderItems, productName);
   }
 }

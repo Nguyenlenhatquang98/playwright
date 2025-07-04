@@ -10,7 +10,6 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await expect(page).toHaveTitle(/Products/);
   await shopPage.turnOffAd();
 
-  await menuSectionPage.switchMode("grid");
   await shopPage.addToCart([
     "Beats Solo3 Wireless On-Ear",
     "Beats Studio Wireless Over-Ear",

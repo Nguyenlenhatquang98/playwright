@@ -18,7 +18,6 @@ test("Verify users can buy multiple item successfully", async ({
 
   // 8. Select any item randomly to purchase
   // 9. Click 'Add to Cart'
-  await menuSectionPage.switchMode("grid");
   await shopPage.addToCart([
     "Beats Solo3 Wireless On-Ear",
     "Beats Studio Wireless Over-Ear",

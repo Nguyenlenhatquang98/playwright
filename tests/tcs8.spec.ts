@@ -15,7 +15,6 @@ test("Verify users can clear the cart", async ({ page, pages }) => {
 
   // Select any item randomly to purchase
   // Click 'Add to Cart'
-  await menuSectionPage.switchMode("grid");
   await shopPage.addToCart([
     "Beats Solo3 Wireless On-Ear",
     "Beats Studio Wireless Over-Ear",

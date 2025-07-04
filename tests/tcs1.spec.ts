@@ -22,11 +22,11 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   );
 
   // 5. Verify items shown as grid
-  await menuSectionPage.switchMode("grid");
+  await electronicComponentsSuppliesPage.switchMode("grid");
   await expect(page.locator(".products-grid")).toBeVisible();
 
   // 6. Switch to list view
-  await menuSectionPage.switchMode("list");
+  await electronicComponentsSuppliesPage.switchMode("list");
 
   // 7. Verify items shown as list
   await expect(page.locator(".products-list")).toBeVisible();

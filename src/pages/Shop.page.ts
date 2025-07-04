@@ -20,7 +20,7 @@ export default class ShopPage {
   }
 
   async addToCart(productName: string | string[]) {
-    CommonSteps.addToCart(this.page, productName);
+    await CommonSteps.addToCart(this.page, productName);
   }
 
   async verifyOrderItemSorting(sortingMethod: "greater" | "less") {
@@ -33,5 +33,9 @@ export default class ShopPage {
 
   async goToProductDetails(name: string) {
     CommonSteps.goToProductDetails(this.page, name);
+  }
+
+  async switchMode(mode: string) {
+    await CommonSteps.switchMode(this.page, mode);
   }
 }

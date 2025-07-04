@@ -14,7 +14,6 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
   await shopPage.turnOffAd();
 
   // Add a product to cart
-  await menuSectionPage.switchMode("grid");
   await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
 
   // Click on Cart button

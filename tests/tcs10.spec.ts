@@ -15,7 +15,6 @@ test("Verify users can post a review", async ({ page, pages }) => {
   await shopPage.turnOffAd();
 
   // 4. Click on a product to view detail
-  await menuSectionPage.switchMode("grid");
   await shopPage.goToProductDetails("Beats Solo3 Wireless On-Ear");
   await expect(page).toHaveTitle(/Beats Solo3 Wireless On-Ear/);
 

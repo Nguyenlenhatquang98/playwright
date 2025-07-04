@@ -17,7 +17,6 @@ test("Verify users can update quantity of product in cart", async ({
   await shopPage.turnOffAd();
 
   // 4. Add a product
-  await menuSectionPage.switchMode("grid");
   await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
 
   // 5. Go to the cart
