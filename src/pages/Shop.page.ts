@@ -1,14 +1,17 @@
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { CommonUtils } from "@utils/commonUtils";
 import { CommonSteps } from "@utils/commonSteps";
 
 export default class ShopPage {
-  readonly closeAdButton = this.page.locator("button.pum-close");
-  readonly priceAllProduct = this.page.locator(
-    ":is(span.price > ins > span,span.price > span)"
-  );
+  readonly closeAdButton: Locator;
+  readonly priceAllProduct: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly page: Page) {
+    this.closeAdButton = page.locator("button.pum-close");
+    this.priceAllProduct = page.locator(
+      ":is(span.price > ins > span,span.price > span)"
+    );
+  }
 
   async turnOffAd() {
     await this.closeAdButton.click();

@@ -1,15 +1,20 @@
 import { TestConfig } from "@config/TestConfig";
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 
 export default class MenuSectionPage {
-  readonly menuAllDepartments1 = this.page.locator("#menu-all-departments-1");
-  readonly menuAllDepartments = this.page.locator(".secondary-menu-wrapper");
-  readonly cartLink = this.page.locator(".woocommerce-Price-amount").first();
-  readonly myAccountLink = this.page.getByRole("link", {
-    name: TestConfig.app_username.split("@")[0],
-  });
+  readonly menuAllDepartments1: Locator;
+  readonly menuAllDepartments: Locator;
+  readonly cartLink: Locator;
+  readonly myAccountLink: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly page: Page) {
+    this.menuAllDepartments1 = page.locator("#menu-all-departments-1");
+    this.menuAllDepartments = page.locator(".secondary-menu-wrapper");
+    this.cartLink = page.locator(".woocommerce-Price-amount").first();
+    this.myAccountLink = page.getByRole("link", {
+      name: TestConfig.app_username.split("@")[0],
+    });
+  }
 
   async navigateToDepartment(department: string) {
     for (let i = 0; i < 10; i++) {

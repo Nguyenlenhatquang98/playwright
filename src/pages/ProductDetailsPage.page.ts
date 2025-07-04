@@ -1,13 +1,18 @@
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { CommonSteps } from "@utils/commonSteps";
 
 export default class ProductDetailsPage {
-  readonly reviewButton = this.page.locator("span:has-text('Reviews')");
-  readonly reviewTextArea = this.page.locator("textarea#comment");
-  readonly submitButton = this.page.getByRole("button", { name: "Submit" });
-  readonly reviewDescriptionList = this.page.locator("div.description p");
+  readonly reviewButton: Locator;
+  readonly reviewTextArea: Locator;
+  readonly submitButton: Locator;
+  readonly reviewDescriptionList: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly page: Page) {
+    this.reviewButton = page.locator("span:has-text('Reviews')");
+    this.reviewTextArea = page.locator("textarea#comment");
+    this.submitButton = page.getByRole("button", { name: "Submit" });
+    this.reviewDescriptionList = page.locator("div.description p");
+  }
 
   async clickReviewButton() {
     await this.reviewButton.click();

@@ -1,15 +1,19 @@
 import { TestConfig } from "@config/TestConfig";
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 
 export default class LoginPage {
-  readonly loginLink = this.page.getByRole("link", {
-    name: "Log in / Sign up",
-  });
-  readonly usernameLabel = this.page.getByLabel("Username or email address");
-  readonly passwordLabel = this.page.getByLabel("Password");
-  readonly loginButton = this.page.getByRole("button", { name: "Log in" });
-
-  constructor(private readonly page: Page) {}
+  readonly loginLink: Locator;
+  readonly usernameLabel: Locator;
+  readonly passwordLabel: Locator;
+  readonly loginButton: Locator;
+  constructor(private readonly page: Page) {
+    this.loginLink = page.getByRole("link", {
+      name: "Log in / Sign up",
+    });
+    this.usernameLabel = page.getByLabel("Username or email address");
+    this.passwordLabel = page.getByLabel("Password");
+    this.loginButton = page.getByRole("button", { name: "Log in" });
+  }
 
   async login() {
     await this.loginLink.click();

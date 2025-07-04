@@ -1,19 +1,24 @@
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { CommonSteps } from "@utils/commonSteps";
 
 export default class CartPage {
-  readonly proceedButton = this.page.getByText("Proceed to checkout");
-  readonly orderItems = this.page.locator(".product-title");
-  readonly quantityInput = this.page.locator("td.product-quantity input");
-  readonly updateCartButton = this.page.getByRole("button", {
-    name: "Update cart",
-  });
-  readonly clearCartButton = this.page.getByText("Clear shopping cart");
-  readonly emptyShoppingCartText = this.page.getByText(
-    "YOUR SHOPPING CART IS EMPTY"
-  );
+  readonly proceedButton: Locator;
+  readonly orderItems: Locator;
+  readonly quantityInput: Locator;
+  readonly updateCartButton: Locator;
+  readonly clearCartButton: Locator;
+  readonly emptyShoppingCartText: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly page: Page) {
+    this.proceedButton = page.getByText("Proceed to checkout");
+    this.orderItems = page.locator(".product-title");
+    this.quantityInput = page.locator("td.product-quantity input");
+    this.updateCartButton = page.getByRole("button", {
+      name: "Update cart",
+    });
+    this.clearCartButton = page.getByText("Clear shopping cart");
+    this.emptyShoppingCartText = page.getByText("YOUR SHOPPING CART IS EMPTY");
+  }
 
   async proceedToCheckout() {
     await this.proceedButton.click();
