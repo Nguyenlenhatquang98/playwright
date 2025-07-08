@@ -36,9 +36,9 @@ npm install dotenv
 
 example:
 
-BASE_URL=https://demo.testarchitect.com/
-APP_USERNAME=quang.nhat.nguyen@agest.vn
-APP_PASSWORD=Test123
+BASE_URL=<url>
+APP_USERNAME=<username>
+APP_PASSWORD=<password>
 
 # create file ts to load env
 

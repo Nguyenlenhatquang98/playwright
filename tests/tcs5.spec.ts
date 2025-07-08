@@ -18,23 +18,19 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(
-    await cartPage.verifyItemDetailsOrderInCartPage([
-      "Beats Solo3 Wireless On-Ear",
-      "Beats Studio Wireless Over-Ear",
-    ])
-  ).toBe(true);
+  expect(await cartPage.getAllOrderText()).toEqual([
+    "Beats Solo3 Wireless On-Ear",
+    "Beats Studio Wireless Over-Ear",
+  ]);
 
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(
-    await checkoutPage.verifyItemDetailsOrderInCheckoutPage([
-      "Beats Solo3 Wireless On-Ear",
-      "Beats Studio Wireless Over-Ear",
-    ])
-  ).toBe(true);
+  expect(await checkoutPage.getAllOrderText()).toEqual([
+    "Beats Solo3 Wireless On-Ear",
+    "Beats Studio Wireless Over-Ear",
+  ]);
 
   await checkoutPage.fillOrderInfomation("full");
 
@@ -53,12 +49,10 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await myAccountPage.viewOrder(orderId);
 
   // 3. Verify order details
-  expect(
-    await myAccountPage.verifyItemDetailsOrderInOrderPage([
-      "Beats Solo3 Wireless On-Ear",
-      "Beats Studio Wireless Over-Ear",
-    ])
-  ).toBe(true);
+  expect(await myAccountPage.getAllOrderText()).toEqual([
+    "Beats Solo3 Wireless On-Ear",
+    "Beats Studio Wireless Over-Ear",
+  ]);
 
   const addressText = await myAccountPage.billingAddressDetails.innerText();
   const normalized = addressText.replace(/\s+/g, " ").trim();

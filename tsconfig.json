@@ -3,7 +3,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "module": "CommonJS",
-    "target": "ESNext",
+    "target": "es2016",
     "baseUrl": ".",
     "paths": {
       "@pages/*": ["src/pages/*"],

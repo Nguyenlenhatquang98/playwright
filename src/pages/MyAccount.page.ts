@@ -1,19 +1,15 @@
-import { TestConfig } from "@config/TestConfig";
-import { Locator, Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 import { CommonSteps } from "@utils/commonSteps";
+import { CommonUtils } from "@utils/commonUtils";
 
 export default class MyAccountPage {
-  readonly orderLink: Locator;
-  readonly orderItems: Locator;
-  readonly billingAddressDetails: Locator;
+  readonly orderLink = this.page.locator(
+    ".woocommerce-MyAccount-navigation-link--orders"
+  );
+  readonly orderItems = this.page.locator("td.product-name a");
+  readonly billingAddressDetails = this.page.locator("address");
 
-  constructor(private readonly page: Page) {
-    this.orderLink = page.locator(
-      ".woocommerce-MyAccount-navigation-link--orders"
-    );
-    this.orderItems = page.locator("td.product-name a");
-    this.billingAddressDetails = page.locator("address");
-  }
+  constructor(private readonly page: Page) {}
 
   async navigateToOrders() {
     await this.orderLink.click();
@@ -28,5 +24,9 @@ export default class MyAccountPage {
 
   async verifyItemDetailsOrderInOrderPage(productName: string | string[]) {
     return CommonSteps.filterLocatorByName(this.orderItems, productName);
+  }
+
+  async getAllOrderText() {
+    return CommonSteps.getText(this.orderItems);
   }
 }

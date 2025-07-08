@@ -22,22 +22,18 @@ test("Verify users try to buy an item without logging in (As a guest)", async ({
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(
-    await cartPage.verifyItemDetailsOrderInCartPage(
-      "Beats Solo3 Wireless On-Ear"
-    )
-  ).toBe(true);
+  expect(await cartPage.getAllOrderText()).toEqual(
+    "Beats Solo3 Wireless On-Ear"
+  );
 
   // 5. Proceed to complete order
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(
-    await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
-      "Beats Solo3 Wireless On-Ear"
-    )
-  ).toBe(true);
+  expect(await checkoutPage.getAllOrderText()).toEqual(
+    "Beats Solo3 Wireless On-Ear"
+  );
 
   await checkoutPage.fillOrderInfomation("full");
 

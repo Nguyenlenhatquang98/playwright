@@ -43,11 +43,9 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(
-    await cartPage.verifyItemDetailsOrderInCartPage(
-      "DJI Mavic Pro Camera Drone"
-    )
-  ).toBe(true);
+  expect(await cartPage.getAllOrderText()).toEqual(
+    "DJI Mavic Pro Camera Drone"
+  );
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -56,11 +54,9 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(
-    await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
-      "DJI Mavic Pro Camera Drone"
-    )
-  ).toBe(true);
+  expect(await checkoutPage.getAllOrderText()).toEqual(
+    "DJI Mavic Pro Camera Drone"
+  );
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInfomation("full");

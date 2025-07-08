@@ -41,4 +41,14 @@ export class CommonSteps {
     }
     return true;
   }
+
+  static async getText(locator: Locator) {
+    const order = await locator.allInnerTexts();
+    console.log("text get from locator: " + order);
+    const orderConvert = CommonUtils.normalizeProductList(
+      await locator.allInnerTexts()
+    );
+    console.log("text after processing: " + orderConvert);
+    return orderConvert;
+  }
 }

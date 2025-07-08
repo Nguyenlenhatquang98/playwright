@@ -3,15 +3,13 @@ import { CommonUtils } from "@utils/commonUtils";
 import { CommonSteps } from "@utils/commonSteps";
 
 export default class ShopPage {
-  readonly closeAdButton: Locator;
-  readonly priceAllProduct: Locator;
+  readonly closeAdButton = this.page.locator("button.pum-close");
 
-  constructor(private readonly page: Page) {
-    this.closeAdButton = page.locator("button.pum-close");
-    this.priceAllProduct = page.locator(
-      ":is(span.price > ins > span,span.price > span)"
-    );
-  }
+  readonly priceAllProduct = this.page.locator(
+    ":is(span.price > ins > span, span.price > span)"
+  );
+
+  constructor(private readonly page: Page) {}
 
   async turnOffAd() {
     await this.closeAdButton.click();

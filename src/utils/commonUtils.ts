@@ -15,6 +15,13 @@ export class CommonUtils {
     return [...new Set(list)];
   }
 
+  static normalizeProductList(list: string[]): string[] | string {
+    const cleanedList = list.map((item) =>
+      item.replace(/\s*×\s*\d+$/, "").trim()
+    );
+    return cleanedList.length === 1 ? cleanedList[0] : cleanedList;
+  }
+
   static getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }

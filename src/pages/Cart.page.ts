@@ -2,30 +2,26 @@ import { Locator, Page, expect } from "@playwright/test";
 import { CommonSteps } from "@utils/commonSteps";
 
 export default class CartPage {
-  readonly proceedButton: Locator;
-  readonly orderItems: Locator;
-  readonly quantityInput: Locator;
-  readonly updateCartButton: Locator;
-  readonly clearCartButton: Locator;
-  readonly emptyShoppingCartText: Locator;
+  readonly proceedButton = this.page.getByText("Proceed to checkout");
+  readonly orderItems = this.page.locator(".product-title");
+  readonly quantityInput = this.page.locator("td.product-quantity input");
+  readonly updateCartButton = this.page.getByRole("button", {
+    name: "Update cart",
+  });
+  readonly clearCartButton = this.page.getByText("Clear shopping cart");
+  readonly emptyShoppingCartText = this.page.getByText(
+    "YOUR SHOPPING CART IS EMPTY"
+  );
+  readonly removeButtons = this.page.locator("a.remove-item");
 
-  constructor(private readonly page: Page) {
-    this.proceedButton = page.getByText("Proceed to checkout");
-    this.orderItems = page.locator(".product-title");
-    this.quantityInput = page.locator("td.product-quantity input");
-    this.updateCartButton = page.getByRole("button", {
-      name: "Update cart",
-    });
-    this.clearCartButton = page.getByText("Clear shopping cart");
-    this.emptyShoppingCartText = page.getByText("YOUR SHOPPING CART IS EMPTY");
-  }
+  constructor(private readonly page: Page) {}
 
   async proceedToCheckout() {
     await this.proceedButton.click();
   }
 
-  async verifyItemDetailsOrderInCartPage(productName: string | string[]) {
-    return CommonSteps.filterLocatorByName(this.orderItems, productName);
+  async getAllOrderText() {
+    return CommonSteps.getText(this.orderItems);
   }
 
   async updateOrderQuantity(
@@ -63,5 +59,15 @@ export default class CartPage {
       expect(dialog.type()).toBe("confirm");
       await dialog.accept();
     });
+  }
+
+  async clearItems() {
+    if (!(await this.emptyShoppingCartText.isVisible())) {
+      const count = await this.removeButtons.count();
+      console.log("current items existed in cart " + count);
+      for (let i = 0; i < count; i++) {
+        await this.removeButtons.first().click();
+      }
+    }
   }
 }

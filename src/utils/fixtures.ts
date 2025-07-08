@@ -44,14 +44,11 @@ export const test = base.extend<FixtureOptions>({
 
     await page.goto(TestConfig.baseURL);
 
-    await page.context().clearCookies();
-    await page.evaluate(() => localStorage.clear());
-    await page.evaluate(() => sessionStorage.clear());
-
     if (needsLogin) {
       await pages.loginPage.login();
+      await pages.menuSectionPage.navigateToCart();
+      await pages.cartPage.clearItems();
     }
-
     await use(pages);
   },
 });

@@ -26,12 +26,10 @@ test("Verify users can clear the cart", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   //  4. Verify items show in table
-  expect(
-    await cartPage.verifyItemDetailsOrderInCartPage([
-      "Beats Solo3 Wireless On-Ear",
-      "Beats Studio Wireless Over-Ear",
-    ])
-  ).toBe(true);
+  expect(await cartPage.getAllOrderText()).toEqual([
+    "Beats Solo3 Wireless On-Ear",
+    "Beats Studio Wireless Over-Ear",
+  ]);
 
   // 5. Click on Clear shopping cart
   await cartPage.clearOrderItems();

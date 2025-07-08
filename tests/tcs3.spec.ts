@@ -26,11 +26,9 @@ test("Verify users can buy an item using different payment methods (all payment 
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(
-    await cartPage.verifyItemDetailsOrderInCartPage(
-      "Beats Solo3 Wireless On-Ear"
-    )
-  ).toBe(true);
+  expect(await cartPage.getAllOrderText()).toEqual(
+    "Beats Solo3 Wireless On-Ear"
+  );
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -39,11 +37,9 @@ test("Verify users can buy an item using different payment methods (all payment 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(
-    await checkoutPage.verifyItemDetailsOrderInCheckoutPage(
-      "Beats Solo3 Wireless On-Ear"
-    )
-  ).toBe(true);
+  expect(await checkoutPage.getAllOrderText()).toEqual(
+    "Beats Solo3 Wireless On-Ear"
+  );
 
   // chose method
   await checkoutPage.choosePayMethod("Cash on delivery");
