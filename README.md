@@ -36,9 +36,9 @@ npm install dotenv
 
 example:
 
-BASE_URL=<url>
-APP_USERNAME=<username>
-APP_PASSWORD=<password>
+BASE_URL=url
+APP_USERNAME=username
+APP_PASSWORD=password
 
 # create file ts to load env
 
