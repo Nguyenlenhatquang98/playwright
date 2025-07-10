@@ -23,29 +23,27 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
 
   // 5. Verify items shown as grid
   await electronicComponentsSuppliesPage.switchMode("grid");
-  await expect(page.locator(".products-grid")).toBeVisible();
+  await expect(electronicComponentsSuppliesPage.gridView).toBeVisible();
 
   // 6. Switch to list view
   await electronicComponentsSuppliesPage.switchMode("list");
 
   // 7. Verify items shown as list
-  await expect(page.locator(".products-list")).toBeVisible();
+  await expect(electronicComponentsSuppliesPage.listView).toBeVisible();
 
   // 8. Select any item randomly to purchase
   // 9. Click 'Add to Cart'
-  await electronicComponentsSuppliesPage.addToCart(
-    "DJI Mavic Pro Camera Drone"
-  );
+  const randomProductName =
+    await electronicComponentsSuppliesPage.getRandomProductName();
+
+  electronicComponentsSuppliesPage.addToCart(randomProductName);
 
   // 10. Go to the cart
-
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(await cartPage.getAllOrderText()).toEqual(
-    "DJI Mavic Pro Camera Drone"
-  );
+  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -54,9 +52,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(await checkoutPage.getAllOrderText()).toEqual(
-    "DJI Mavic Pro Camera Drone"
-  );
+  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInfomation("full");

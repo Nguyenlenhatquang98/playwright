@@ -22,8 +22,33 @@ export class CommonUtils {
     return cleanedList.length === 1 ? cleanedList[0] : cleanedList;
   }
 
-  static getRandomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  static getRandomNumber(
+    min: number,
+    max: number,
+    quantity?: number
+  ): number | number[] {
+    const rand = () => Math.floor(Math.random() * (max - min + 1)) + min;
+    if (quantity === undefined || quantity === 1) return rand();
+    if (quantity === 0) return [];
+    if (quantity > max - min + 1) {
+      throw new Error(
+        "Quantity exceeds the number of unique values in the range."
+      );
+    }
+
+    const result = new Set<number>();
+    while (result.size < quantity) result.add(rand());
+
+    return [...result].sort((a, b) => a - b);
+  }
+
+  static getItemsByIndexes<T>(list: T[], indexes: number | number[]): T | T[] {
+    if (Array.isArray(indexes)) {
+      const items = indexes.map((i) => list[i]);
+      return items.length === 1 ? items[0] : items;
+    }
+
+    return list[indexes];
   }
 
   static getRandomString(length: number): string {

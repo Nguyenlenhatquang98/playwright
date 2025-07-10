@@ -15,10 +15,9 @@ test("Verify users can clear the cart", async ({ page, pages }) => {
 
   // Select any item randomly to purchase
   // Click 'Add to Cart'
-  await shopPage.addToCart([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  const randomProductName = await shopPage.getRandomProductName(2);
+
+  shopPage.addToCart(randomProductName);
 
   // 3. Go to the cart
 
@@ -26,10 +25,7 @@ test("Verify users can clear the cart", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   //  4. Verify items show in table
-  expect(await cartPage.getAllOrderText()).toEqual([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
 
   // 5. Click on Clear shopping cart
   await cartPage.clearOrderItems();

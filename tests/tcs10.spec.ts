@@ -15,14 +15,19 @@ test("Verify users can post a review", async ({ page, pages }) => {
   await shopPage.turnOffAd();
 
   // 4. Click on a product to view detail
-  await shopPage.goToProductDetails("Beats Solo3 Wireless On-Ear");
-  await expect(page).toHaveTitle(/Beats Solo3 Wireless On-Ear/);
+  let randomProductName = await shopPage.getRandomProductName();
+  randomProductName = Array.isArray(randomProductName)
+    ? randomProductName[0]
+    : randomProductName;
+
+  await shopPage.goToProductDetails(randomProductName);
+  await expect(page).toHaveTitle(new RegExp(randomProductName));
 
   // 5. Scroll down then click on REVIEWS tab
   await productDetailsPage.clickReviewButton();
 
   // 6. Submit a review
-  const rating = CommonUtils.getRandomNumber(1, 5);
+  const rating = Number(CommonUtils.getRandomNumber(1, 5));
   const commentContent = CommonUtils.getRandomString(10);
 
   await productDetailsPage.ratingProduct(rating);

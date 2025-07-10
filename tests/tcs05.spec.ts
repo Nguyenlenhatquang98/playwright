@@ -10,27 +10,20 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await expect(page).toHaveTitle(/Products/);
   await shopPage.turnOffAd();
 
-  await shopPage.addToCart([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  const randomProductName = await shopPage.getRandomProductName(2);
+
+  shopPage.addToCart(randomProductName);
 
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(await cartPage.getAllOrderText()).toEqual([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
 
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(await checkoutPage.getAllOrderText()).toEqual([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
 
   await checkoutPage.fillOrderInfomation("full");
 
@@ -49,10 +42,7 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await myAccountPage.viewOrder(orderId);
 
   // 3. Verify order details
-  expect(await myAccountPage.getAllOrderText()).toEqual([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  expect(await myAccountPage.getAllOrderText()).toEqual(randomProductName);
 
   const addressText = await myAccountPage.billingAddressDetails.innerText();
   const normalized = addressText.replace(/\s+/g, " ").trim();

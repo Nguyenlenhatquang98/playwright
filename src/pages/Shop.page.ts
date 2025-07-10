@@ -20,6 +20,10 @@ export default class ShopPage {
     await this.page.selectOption(".orderby", { label: `${sortingMethod}` });
   }
 
+  async getRandomProductName(amount: number = 1) {
+    return await CommonSteps.getRandomProductName(this.page, amount);
+  }
+
   async addToCart(productName: string | string[]) {
     await CommonSteps.addToCart(this.page, productName);
   }

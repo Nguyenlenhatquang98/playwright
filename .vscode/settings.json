@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.insertFinalNewline": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "cSpell.ignoreWords": ["reportportal", "genai", "unmark", "woocommerce"],
+
+  "cSpell.ignorePaths": [
+    "**/node_modules/**",
+    "**/.vscode/**",
+    "package.json",
+    "tsconfig.json"
+  ]
+}

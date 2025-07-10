@@ -6,13 +6,35 @@ export class CommonSteps {
     if (typeof productName === "string") {
       productName = productName.trim() === "" ? [] : [productName];
     }
+
     for (let i = 0; i < productName.length; i++) {
-      await page.waitForTimeout(3000);
-      await page
-        .locator(`[data-product_name="${productName[i]}"]`)
-        .nth(1)
-        .click();
+      const allProducts = page.locator(".product-details");
+      const matchedProduct = allProducts.filter({ hasText: productName[i] });
+      const button = matchedProduct.locator("a.add_to_cart_button");
+      console.log("add to cart for: " + button);
+      await button.isVisible();
+      await button.scrollIntoViewIfNeeded();
+      await button.click();
     }
+  }
+
+  static async getRandomProductName(page: Page, amount: number = 1) {
+    const listProductName = await page
+      .locator("h2.product-title")
+      .allInnerTexts();
+    console.log("list product name: " + listProductName);
+    const randomNumber = CommonUtils.getRandomNumber(
+      1,
+      listProductName.length - 1,
+      amount
+    );
+    console.log("list random number: " + randomNumber);
+    const randomProductName = CommonUtils.getItemsByIndexes(
+      listProductName,
+      randomNumber
+    );
+    console.log("list random product name: " + randomProductName);
+    return randomProductName;
   }
 
   static async goToProductDetails(page: Page, name: string) {

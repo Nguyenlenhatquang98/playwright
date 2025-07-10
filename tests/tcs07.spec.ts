@@ -14,24 +14,22 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
   await shopPage.turnOffAd();
 
   // Add a product to cart
-  await shopPage.addToCart("Beats Solo3 Wireless On-Ear");
+  const randomProductName = await shopPage.getRandomProductName();
+
+  shopPage.addToCart(randomProductName);
 
   // Click on Cart button
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(await cartPage.getAllOrderText()).toEqual(
-    "Beats Solo3 Wireless On-Ear"
-  );
+  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
 
   // Proceed to complete order
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(await checkoutPage.getAllOrderText()).toEqual(
-    "Beats Solo3 Wireless On-Ear"
-  );
+  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
 
   // 1. Leave mandatory fields (address, payment info) blank
   await checkoutPage.fillOrderInfomation("missing");

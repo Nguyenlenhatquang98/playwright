@@ -1,10 +1,10 @@
 import { test, expect } from "@utils/fixtures";
 
-test("Verify users can buy multiple item successfully", async ({
+test("Verify users can buy an item using different payment methods (all payment methods)", async ({
   page,
   pages,
 }) => {
-  const { shopPage, menuSectionPage, cartPage, checkoutPage } = pages;
+  const { menuSectionPage, cartPage, checkoutPage, shopPage } = pages;
 
   // 1. Open browser and go to url
   // 2. Login with valid credentials
@@ -18,10 +18,9 @@ test("Verify users can buy multiple item successfully", async ({
 
   // 8. Select any item randomly to purchase
   // 9. Click 'Add to Cart'
-  await shopPage.addToCart([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  const randomProductName = await shopPage.getRandomProductName();
+
+  shopPage.addToCart(randomProductName);
 
   // 10. Go to the cart
 
@@ -29,10 +28,7 @@ test("Verify users can buy multiple item successfully", async ({
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(await cartPage.getAllOrderText()).toEqual([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -41,10 +37,10 @@ test("Verify users can buy multiple item successfully", async ({
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(await checkoutPage.getAllOrderText()).toEqual([
-    "Beats Solo3 Wireless On-Ear",
-    "Beats Studio Wireless Over-Ear",
-  ]);
+  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+
+  // chose method
+  await checkoutPage.choosePayMethod("Cash on delivery");
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInfomation("full");
@@ -56,6 +52,6 @@ test("Verify users can buy multiple item successfully", async ({
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 18. Verify the Order details with billing and item information
-  const addressText = await checkoutPage.successConfirmMessage.innerText();
-  expect(addressText).toEqual("THANK YOU. YOUR ORDER HAS BEEN RECEIVED.");
+  const addressText = await checkoutPage.paymentMethod.textContent();
+  expect(addressText).toEqual("Cash on delivery");
 });

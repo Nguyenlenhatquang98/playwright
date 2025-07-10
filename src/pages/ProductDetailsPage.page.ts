@@ -38,4 +38,7 @@ export default class ProductDetailsPage {
       .innerText();
     return parseInt(rating, 10) === rate;
   }
+  // async verifyReviewContent(content: string) {
+  //   return CommonSteps.getText
+  // }
 }

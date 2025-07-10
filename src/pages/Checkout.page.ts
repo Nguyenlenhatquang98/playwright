@@ -9,11 +9,11 @@ export default class CheckoutPage {
   readonly lastNameLabel = this.page.locator("label", {
     hasText: "Last name",
   });
-  readonly countryfilterButton = this.page
+  readonly countryFilterButton = this.page
     .locator(".select2-selection__rendered")
     .first();
   readonly searchInput = this.page.locator(".select2-search__field");
-  readonly statefilterButton = this.page
+  readonly stateFilterButton = this.page
     .locator(".select2-selection__rendered")
     .nth(1);
   readonly streetAddressLabel = this.page.locator("label", {
@@ -62,11 +62,11 @@ export default class CheckoutPage {
       await fieldMap[key].fill(value);
     }
 
-    await this.countryfilterButton.click();
+    await this.countryFilterButton.click();
     await this.searchInput.fill(customerInfo.country ?? "");
     await this.searchInput.press("Enter");
 
-    await this.statefilterButton.click();
+    await this.stateFilterButton.click();
     await this.searchInput.fill(customerInfo.state ?? "");
     await this.searchInput.press("Enter");
   }
