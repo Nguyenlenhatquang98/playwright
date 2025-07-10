@@ -2,12 +2,14 @@ import { expect, Locator } from "@playwright/test";
 
 export class CommonUtils {
   static isSorted(texts: string[], sorting: "greater" | "less"): boolean {
-    const nums = texts.map((t) => parseFloat(t.replace(/[^0-9.-]+/g, "")));
+    const listNumber = texts.map((t) =>
+      parseFloat(t.replace(/[^0-9.-]+/g, ""))
+    );
 
-    return !nums
+    return !listNumber
       .slice(0, -1)
       .some((n, i) =>
-        sorting === "greater" ? n < nums[i + 1] : n > nums[i + 1]
+        sorting === "greater" ? n < listNumber[i + 1] : n > listNumber[i + 1]
       );
   }
 
@@ -58,5 +60,11 @@ export class CommonUtils {
       { length },
       () => chars[Math.floor(Math.random() * chars.length)]
     ).join("");
+  }
+
+  static normalizeLowerCase(val: string | string[]): string | string[] {
+    return Array.isArray(val)
+      ? val.map((v) => v.toLowerCase())
+      : val.toLowerCase();
   }
 }

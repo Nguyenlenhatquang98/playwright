@@ -1,22 +1,22 @@
 {
   "full": {
-    "firstname": "Quang",
-    "lastname": "Nguyen",
+    "firstName": "Wang",
+    "lastName": "Nguyen",
     "country": "United States",
     "address": "1250 Ocean Dr",
     "city": "Miami Beach",
     "state": "Alabama",
-    "zipcode": "33139",
-    "phonenumber": "+844042325232",
+    "zipCode": "33139",
+    "phoneNumber": "+844042325232",
     "email": "quang.nhat.nguyen@agest.vn"
   },
   "missing": {
-    "firstname": "Quang",
-    "lastname": "Nguyen",
+    "firstName": "Wang",
+    "lastName": "Nguyen",
     "country": "United States",
     "state": "Alabama",
-    "zipcode": "33139",
-    "phonenumber": "+844042325232",
+    "zipCode": "33139",
+    "phoneNumber": "+844042325232",
     "email": "quang.nhat.nguyen@agest.vn"
   }
 }

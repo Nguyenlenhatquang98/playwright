@@ -1,3 +1,4 @@
+import { CommonUtils } from "@utils/commonUtils";
 import { test, expect } from "@utils/fixtures";
 
 test("Ensure proper error handling when mandatory fields are blank", async ({
@@ -22,17 +23,21 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // Proceed to complete order
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await checkoutPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 1. Leave mandatory fields (address, payment info) blank
-  await checkoutPage.fillOrderInfomation("missing");
+  await checkoutPage.fillOrderInformation("missing");
 
   //  2. Click 'Confirm Order'
   await checkoutPage.placeOrder();

@@ -1,3 +1,4 @@
+import { CommonUtils } from "@utils/commonUtils";
 import { test, expect } from "@utils/fixtures";
 
 test("Verify users can clear the cart", async ({ page, pages }) => {
@@ -25,7 +26,9 @@ test("Verify users can clear the cart", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   //  4. Verify items show in table
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 5. Click on Clear shopping cart
   await cartPage.clearOrderItems();

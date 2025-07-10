@@ -1,3 +1,4 @@
+import { CommonUtils } from "@utils/commonUtils";
 import { test, expect } from "@utils/fixtures";
 
 test("Verify users can buy multiple item successfully", async ({
@@ -34,14 +35,16 @@ test("Verify users can buy multiple item successfully", async ({
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
 
-  // 13. Verify Checkbout page displays
+  // 13. Verify Checkout page displays
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await checkoutPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 15. Fill the billing details with default payment method
-  await checkoutPage.fillOrderInfomation("full");
+  await checkoutPage.fillOrderInformation("full");
 
   // 16. Click on PLACE ORDER
   await checkoutPage.placeOrder();

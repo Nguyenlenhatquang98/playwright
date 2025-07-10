@@ -1,5 +1,6 @@
 import { test, expect } from "@utils/fixtures";
 import customerInfo from "@data/checkoutInfo.json";
+import { CommonSteps } from "@utils/commonSteps";
 
 test("Verify users can buy an item successfully", async ({ page, pages }) => {
   const {
@@ -55,7 +56,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
 
   // 15. Fill the billing details with default payment method
-  await checkoutPage.fillOrderInfomation("full");
+  await checkoutPage.fillOrderInformation("full");
 
   // 16. Click on PLACE ORDER
   await checkoutPage.placeOrder();
@@ -66,9 +67,8 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   // 18. Verify the Order details with billing and item information
   const addressText = await checkoutPage.billingAddressDetails.innerText();
   const normalized = addressText.replace(/\s+/g, " ").trim();
-  expect(normalized).toContain(customerInfo.full.firstname);
-  expect(normalized).toContain(customerInfo.full.lastname);
-  expect(normalized).toContain(customerInfo.full.city);
-  expect(normalized).toContain(customerInfo.full.phonenumber);
-  expect(normalized).toContain(customerInfo.full.email);
+
+  expect(await CommonSteps.removeStateFromString(normalized)).toEqual(
+    await CommonSteps.getStringForCheckoutInformation("full")
+  );
 });

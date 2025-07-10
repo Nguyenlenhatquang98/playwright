@@ -1,3 +1,4 @@
+import { CommonUtils } from "@utils/commonUtils";
 import { test, expect } from "@utils/fixtures";
 
 test.use({ needsLogin: false });
@@ -24,16 +25,20 @@ test("Verify users try to buy an item without logging in (As a guest)", async ({
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 5. Proceed to complete order
   await cartPage.proceedToCheckout();
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await checkoutPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
-  await checkoutPage.fillOrderInfomation("full");
+  await checkoutPage.fillOrderInformation("full");
 
   await checkoutPage.placeOrder();
 

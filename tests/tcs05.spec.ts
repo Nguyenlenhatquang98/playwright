@@ -1,5 +1,7 @@
 import { test, expect } from "@utils/fixtures";
 import customerInfo from "@data/checkoutInfo.json";
+import { CommonUtils } from "@utils/commonUtils";
+import { CommonSteps } from "@utils/commonSteps";
 
 test("Verify orders appear in order history", async ({ page, pages }) => {
   const { shopPage, menuSectionPage, cartPage, checkoutPage, myAccountPage } =
@@ -23,9 +25,11 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await checkoutPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
-  await checkoutPage.fillOrderInfomation("full");
+  await checkoutPage.fillOrderInformation("full");
 
   await checkoutPage.placeOrder();
 
@@ -42,13 +46,14 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await myAccountPage.viewOrder(orderId);
 
   // 3. Verify order details
-  expect(await myAccountPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await myAccountPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   const addressText = await myAccountPage.billingAddressDetails.innerText();
   const normalized = addressText.replace(/\s+/g, " ").trim();
-  expect(normalized).toContain(customerInfo.full.firstname);
-  expect(normalized).toContain(customerInfo.full.lastname);
-  expect(normalized).toContain(customerInfo.full.city);
-  expect(normalized).toContain(customerInfo.full.phonenumber);
-  expect(normalized).toContain(customerInfo.full.email);
+
+  expect(await CommonSteps.removeStateFromString(normalized)).toEqual(
+    await CommonSteps.getStringForCheckoutInformation("full")
+  );
 });

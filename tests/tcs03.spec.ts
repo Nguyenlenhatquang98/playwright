@@ -33,7 +33,7 @@ test("Verify users can buy an item using different payment methods (all payment 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
 
-  // 13. Verify Checkbout page displays
+  // 13. Verify Checkout page displays
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
@@ -43,7 +43,7 @@ test("Verify users can buy an item using different payment methods (all payment 
   await checkoutPage.choosePayMethod("Cash on delivery");
 
   // 15. Fill the billing details with default payment method
-  await checkoutPage.fillOrderInfomation("full");
+  await checkoutPage.fillOrderInformation("full");
 
   // 16. Click on PLACE ORDER
   await checkoutPage.placeOrder();

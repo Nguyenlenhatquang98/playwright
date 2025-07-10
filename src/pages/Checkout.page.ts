@@ -20,7 +20,9 @@ export default class CheckoutPage {
     hasText: "Street address",
   });
   readonly townLabel = this.page.locator("label", { hasText: "Town / City" });
-  readonly zipCodeLabel = this.page.locator("label", { hasText: "ZIP Code" });
+  readonly zipCodeLabel = this.page.locator("label", {
+    hasText: "ZIP Code",
+  });
   readonly phoneLabel = this.page.locator("label", { hasText: "Phone" });
   readonly emailLabel = this.page.locator("label", {
     hasText: "Email address",
@@ -44,16 +46,16 @@ export default class CheckoutPage {
     await this.page.getByLabel(method).click();
   }
 
-  async fillOrderInfomation(status: "full" | "missing") {
+  async fillOrderInformation(status: "full" | "missing") {
     const customerInfo = customerData[status];
 
     const fieldMap: { [key: string]: Locator } = {
-      firstname: this.firstNameLabel,
-      lastname: this.lastNameLabel,
+      firstName: this.firstNameLabel,
+      lastName: this.lastNameLabel,
       address: this.streetAddressLabel,
       city: this.townLabel,
-      zipcode: this.zipCodeLabel,
-      phonenumber: this.phoneLabel,
+      zipCode: this.zipCodeLabel,
+      phoneNumber: this.phoneLabel,
       email: this.emailLabel,
     };
 
@@ -76,14 +78,14 @@ export default class CheckoutPage {
     const customerInfo = customerData[status];
 
     const requiredFields = [
-      "firstname",
-      "lastname",
+      "firstName",
+      "lastName",
       "country",
       "address",
       "city",
       "state",
-      "zipcode",
-      "phonenumber",
+      "zipCode",
+      "phoneNumber",
       "email",
     ];
 

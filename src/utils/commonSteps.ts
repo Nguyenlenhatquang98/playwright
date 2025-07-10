@@ -1,16 +1,16 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { CommonUtils } from "@utils/commonUtils";
+import customerInfo from "@data/checkoutInfo.json";
 
 export class CommonSteps {
   static async addToCart(page: Page, productName: string | string[]) {
     if (typeof productName === "string") {
       productName = productName.trim() === "" ? [] : [productName];
     }
-
     for (let i = 0; i < productName.length; i++) {
       const allProducts = page.locator(".product-details");
       const matchedProduct = allProducts.filter({ hasText: productName[i] });
-      const button = matchedProduct.locator("a.add_to_cart_button");
+      const button = matchedProduct.locator("a.add_to_cart_button").first();
       console.log("add to cart for: " + button);
       await button.isVisible();
       await button.scrollIntoViewIfNeeded();
@@ -50,7 +50,7 @@ export class CommonSteps {
     locator: Locator,
     productName: string | string[]
   ) {
-    console.log("All textcontent: " + (await locator.allInnerTexts()));
+    console.log("All textContent: " + (await locator.allInnerTexts()));
     if (typeof productName === "string") {
       productName = productName.trim() === "" ? [] : [productName];
     }
@@ -72,5 +72,29 @@ export class CommonSteps {
     );
     console.log("text after processing: " + orderConvert);
     return orderConvert;
+  }
+
+  static async getStringForCheckoutInformation(
+    type: keyof typeof customerInfo
+  ) {
+    const i = customerInfo[type] as Partial<(typeof customerInfo)["full"]>;
+    return [
+      i.firstName,
+      i.lastName,
+      i.address,
+      i.city && `${i.city},`,
+      i.zipCode,
+      i.phoneNumber,
+      i.email,
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  static async removeStateFromString(str: string) {
+    return str
+      .replace(/\b[A-Z]{2}\b/, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
   }
 }
