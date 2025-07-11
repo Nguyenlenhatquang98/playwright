@@ -1,3 +1,4 @@
+import { CommonSteps } from "@utils/commonSteps";
 import { CommonUtils } from "@utils/commonUtils";
 import { test, expect } from "@utils/fixtures";
 
@@ -43,5 +44,7 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
   await checkoutPage.placeOrder();
 
   // 3. Verify error messages
-  expect(await checkoutPage.verifyErrorMessage("missing")).toBe(true);
+  expect(await checkoutPage.getMissingFieldMessages("missing")).toEqual(
+    await checkoutPage.getErrorMessageText()
+  );
 });

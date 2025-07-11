@@ -38,30 +38,12 @@ export class CommonSteps {
   }
 
   static async goToProductDetails(page: Page, name: string) {
-    await page.getByText(name).click();
+    await page.getByText(name).first().click();
   }
 
   static async switchMode(page: Page, mode: string) {
     await page.locator(".switch-" + mode).click();
     await page.waitForTimeout(3000);
-  }
-
-  static async filterLocatorByName(
-    locator: Locator,
-    productName: string | string[]
-  ) {
-    console.log("All textContent: " + (await locator.allInnerTexts()));
-    if (typeof productName === "string") {
-      productName = productName.trim() === "" ? [] : [productName];
-    }
-    const uniqueList = CommonUtils.removeDuplicates(productName);
-
-    for (let i = 0; i < uniqueList.length; i++) {
-      console.log("Filter for: " + uniqueList[i]);
-      const count = await locator.filter({ hasText: uniqueList[i] }).count();
-      if (count != 1) return false;
-    }
-    return true;
   }
 
   static async getText(locator: Locator) {

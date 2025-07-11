@@ -35,7 +35,10 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
-  const orderId = await checkoutPage.orderNumber.textContent();
+  // const orderId = await checkoutPage.orderNumber.textContent();
+  const orderOverview = await checkoutPage.getOrderOverview();
+
+  console.log("Order data after checkout: " + JSON.stringify(orderOverview));
 
   // 1. Go to My Account page
   await menuSectionPage.navigateToMyAccount();
@@ -43,7 +46,17 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
 
   // 2. Click on Orders in left navigation
   await myAccountPage.navigateToOrders();
-  await myAccountPage.viewOrder(orderId);
+
+  const orderHistory = await myAccountPage.getOrderInfoById(
+    orderOverview.order
+  );
+
+  console.log("Order data in MyAccount page: " + JSON.stringify(orderHistory));
+  expect(orderHistory.order).toEqual(`#${orderOverview.order}`);
+  expect(orderHistory.date).toEqual(orderOverview.date);
+  expect(orderHistory.total).toContain(orderOverview.total);
+
+  await myAccountPage.viewOrder(orderOverview.order);
 
   // 3. Verify order details
   expect(

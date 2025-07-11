@@ -21,7 +21,12 @@ test("Verify users can post a review", async ({ page, pages }) => {
     : randomProductName;
 
   await shopPage.goToProductDetails(randomProductName);
-  await expect(page).toHaveTitle(new RegExp(randomProductName));
+  await expect(page).toHaveTitle(
+    new RegExp(
+      randomProductName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ".*",
+      "i"
+    )
+  );
 
   // 5. Scroll down then click on REVIEWS tab
   await productDetailsPage.clickReviewButton();
@@ -35,7 +40,9 @@ test("Verify users can post a review", async ({ page, pages }) => {
   await productDetailsPage.submitReview();
 
   // 7. Verify new review
-  expect(await productDetailsPage.verifyNewReview(rating, commentContent)).toBe(
-    true
-  );
+  console.log(await productDetailsPage.getReviewText());
+  expect(await productDetailsPage.getReviewText()).toContain(commentContent);
+  expect(
+    await productDetailsPage.getRatingBaseOnReviewText(commentContent)
+  ).toEqual(rating);
 });

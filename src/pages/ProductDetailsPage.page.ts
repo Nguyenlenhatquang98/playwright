@@ -10,12 +10,12 @@ export default class ProductDetailsPage {
   constructor(private readonly page: Page) {}
 
   async clickReviewButton() {
-    await this.reviewButton.click();
+    await this.reviewButton.first().click();
   }
 
   async ratingProduct(rate: number) {
     if (rate < 1 || rate > 5) throw new Error("Rate must be between 1 and 5");
-    await this.page.locator(`a.star-${rate.toString()}`).click();
+    await this.page.locator(`a.star-${rate.toString()}`).first().click();
   }
 
   async reviewProduct(content: string) {
@@ -27,18 +27,18 @@ export default class ProductDetailsPage {
     await this.page.waitForTimeout(3000);
   }
 
-  async verifyNewReview(rate: number, content: string) {
-    if (rate < 1 || rate > 5) throw new Error("Rate must be between 1 and 5");
-    if (!CommonSteps.filterLocatorByName(this.reviewDescriptionList, content))
-      return false;
+  async getReviewText() {
+    return await this.reviewDescriptionList.allInnerTexts();
+  }
+
+  async getRatingBaseOnReviewText(content: string) {
     const rating = await this.page
       .locator(`p:has-text("${content}")`)
       .locator('xpath=ancestor::div[contains(@class, "comment-text")]')
       .locator(".star-rating .rating")
       .innerText();
-    return parseInt(rating, 10) === rate;
+    const actualRating = parseInt(rating, 10);
+    console.log(`rating with content: "${content}" is ${actualRating}`);
+    return actualRating;
   }
-  // async verifyReviewContent(content: string) {
-  //   return CommonSteps.getText
-  // }
 }

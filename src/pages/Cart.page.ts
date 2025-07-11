@@ -64,6 +64,7 @@ export default class CartPage {
   async clearItems() {
     if (!(await this.emptyShoppingCartText.isVisible())) {
       const count = await this.removeButtons.count();
+      await this.page.waitForTimeout(3000);
       console.log("current items existed in cart " + count);
       for (let i = 0; i < count; i++) {
         await this.removeButtons.first().click();

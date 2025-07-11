@@ -49,7 +49,7 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
 
-  // 13. Verify Checkbout page displays
+  // 13. Verify Checkout page displays
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order

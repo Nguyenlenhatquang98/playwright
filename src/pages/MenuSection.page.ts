@@ -31,6 +31,7 @@ export default class MenuSectionPage {
     await this.page
       .locator("div.menu-main-container >> nth=1 >> a", { hasText: `${item}` })
       .click();
+    await this.page.waitForTimeout(2000);
   }
 
   async navigateToMyAccount() {

@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import customerData from "@data/checkoutInfo.json";
 import { CommonSteps } from "@utils/commonSteps";
+import { CommonUtils } from "@utils/commonUtils";
 
 export default class CheckoutPage {
   readonly firstNameLabel = this.page.locator("label", {
@@ -38,7 +39,16 @@ export default class CheckoutPage {
   readonly orderNumber = this.page.locator(
     ".woocommerce-order-overview__order.order strong"
   );
-  readonly errorMessages = this.page.locator("ul.woocommerce-error strong");
+
+  readonly orderDate = this.page.locator(
+    ".woocommerce-order-overview__date.date strong"
+  );
+
+  readonly orderTotal = this.page.locator(
+    ".woocommerce-order-overview__total.total strong"
+  );
+
+  readonly errorMessages = this.page.locator("ul.woocommerce-error li");
 
   constructor(private readonly page: Page) {}
 
@@ -73,10 +83,8 @@ export default class CheckoutPage {
     await this.searchInput.press("Enter");
   }
 
-  async verifyErrorMessage(status: "full" | "missing") {
-    await this.page.waitForTimeout(3000);
+  async getMissingFieldMessages(status: "full" | "missing"): Promise<string[]> {
     const customerInfo = customerData[status];
-
     const requiredFields = [
       "firstName",
       "lastName",
@@ -88,19 +96,51 @@ export default class CheckoutPage {
       "phoneNumber",
       "email",
     ];
+    const fieldLabels: Record<string, string> = {
+      firstName: "First name",
+      lastName: "Last name",
+      country: "Country / Region",
+      address: "Street address",
+      city: "Town / City",
+      state: "State",
+      zipCode: "Postcode / ZIP",
+      phoneNumber: "Phone",
+      email: "Email address",
+    };
 
-    const missingFields = requiredFields.filter(
-      (field) => !customerInfo[field]
-    );
-
-    return CommonSteps.filterLocatorByName(this.errorMessages, missingFields);
+    return requiredFields
+      .filter((field) => !customerInfo[field])
+      .map((field) => `Billing ${fieldLabels[field]} is a required field.`);
   }
 
   async placeOrder() {
     await this.page.getByRole("button", { name: "Place order" }).click();
   }
 
+  async getOrderOverview(): Promise<{
+    order: string;
+    date: string;
+    total: string;
+  }> {
+    const [orderNumber, orderDate, orderTotal] = await Promise.all([
+      this.orderNumber.innerText(),
+      this.orderDate.innerText(),
+      this.orderTotal.innerText(),
+    ]);
+
+    return {
+      order: orderNumber.trim(),
+      date: orderDate.trim(),
+      total: orderTotal.trim(),
+    };
+  }
+
   async getAllOrderText() {
     return CommonSteps.getText(this.orderItems);
+  }
+
+  async getErrorMessageText() {
+    await this.page.waitForTimeout(3000);
+    return CommonSteps.getText(this.errorMessages);
   }
 }
