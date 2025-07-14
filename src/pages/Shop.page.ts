@@ -16,8 +16,9 @@ export default class ShopPage {
   }
 
   async sortingProduct(sortingMethod: string) {
+    await this.page.waitForTimeout(1000);
     await this.page.waitForSelector(".orderby");
-    await this.page.selectOption(".orderby", { label: `${sortingMethod}` });
+    await this.page.selectOption(".orderby", { label: sortingMethod });
   }
 
   async getRandomProductName(amount: number = 1) {

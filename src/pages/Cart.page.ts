@@ -41,8 +41,6 @@ export default class CartPage {
       const btn = this.page.locator(`${base} .${diff > 0 ? "plus" : "minus"}`);
       for (let i = Math.abs(diff); i-- > 0; ) await btn.click();
     }
-
-    await this.page.waitForTimeout(4000);
   }
 
   async getQuantityInputValue(name: string) {
@@ -62,13 +60,11 @@ export default class CartPage {
   }
 
   async clearItems() {
-    if (!(await this.emptyShoppingCartText.isVisible())) {
+    const count = await this.removeButtons.count();
+    while (!(await this.emptyShoppingCartText.isVisible()) && count > 0) {
       const count = await this.removeButtons.count();
-      await this.page.waitForTimeout(3000);
       console.log("current items existed in cart " + count);
-      for (let i = 0; i < count; i++) {
-        await this.removeButtons.first().click();
-      }
+      await this.removeButtons.first().click();
     }
   }
 }

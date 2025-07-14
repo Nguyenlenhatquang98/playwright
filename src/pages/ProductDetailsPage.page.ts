@@ -19,12 +19,11 @@ export default class ProductDetailsPage {
   }
 
   async reviewProduct(content: string) {
-    await this.reviewTextArea.fill(content);
+    await this.reviewTextArea.first().fill(content);
   }
 
   async submitReview() {
     await this.submitButton.click();
-    await this.page.waitForTimeout(3000);
   }
 
   async getReviewText() {

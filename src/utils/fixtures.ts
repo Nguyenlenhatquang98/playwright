@@ -46,7 +46,7 @@ export const test = base.extend<FixtureOptions>({
 
     if (needsLogin) {
       await pages.loginPage.login();
-      await pages.menuSectionPage.navigateToCart();
+      await pages.menuSectionPage.navigateToCart(false);
       await pages.cartPage.clearItems();
     }
     await use(pages);

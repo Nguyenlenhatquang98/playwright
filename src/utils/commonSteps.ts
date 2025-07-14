@@ -43,7 +43,9 @@ export class CommonSteps {
 
   static async switchMode(page: Page, mode: string) {
     await page.locator(".switch-" + mode).click();
-    await page.waitForTimeout(3000);
+    await page
+      .locator(".products-" + mode)
+      .waitFor({ state: "visible", timeout: 5000 });
   }
 
   static async getText(locator: Locator) {

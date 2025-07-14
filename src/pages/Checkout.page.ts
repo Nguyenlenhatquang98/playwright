@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import customerData from "@data/checkoutInfo.json";
 import { CommonSteps } from "@utils/commonSteps";
 import { CommonUtils } from "@utils/commonUtils";
@@ -136,11 +136,12 @@ export default class CheckoutPage {
   }
 
   async getAllOrderText() {
+    await this.orderItems.first().waitFor({ state: "visible" });
     return CommonSteps.getText(this.orderItems);
   }
 
   async getErrorMessageText() {
-    await this.page.waitForTimeout(3000);
+    await expect(this.errorMessages.first()).toBeVisible({ timeout: 5000 });
     return CommonSteps.getText(this.errorMessages);
   }
 }
