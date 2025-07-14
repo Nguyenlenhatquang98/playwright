@@ -4,6 +4,7 @@ import { CommonSteps } from "@utils/commonSteps";
 export default class ElectronicComponentsSuppliesPage {
   readonly gridView = this.page.locator(".products-grid");
   readonly listView = this.page.locator(".products-list");
+  readonly loader = this.page.locator(".et-loader.product-ajax.loading");
 
   constructor(private readonly page: Page) {}
 
@@ -17,5 +18,6 @@ export default class ElectronicComponentsSuppliesPage {
 
   async switchMode(mode: string) {
     await CommonSteps.switchMode(this.page, mode);
+    await CommonSteps.waitForLoaderToAppearAndDisappear(this.loader);
   }
 }

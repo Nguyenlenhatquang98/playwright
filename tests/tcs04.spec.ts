@@ -15,6 +15,7 @@ test("Verify users can sort items by price", async ({ page, pages }) => {
 
   // 4.  Switch view to list
   await shopPage.switchMode("list");
+  await expect(shopPage.listView).toBeVisible();
 
   // 5. Sort items by price (high to low)
   await shopPage.sortingProduct("Sort by price: high to low");

@@ -4,6 +4,8 @@ import { CommonSteps } from "@utils/commonSteps";
 
 export default class ShopPage {
   readonly closeAdButton = this.page.locator("button.pum-close");
+  readonly listView = this.page.locator(".products-list");
+  readonly loader = this.page.locator(".et-loader.product-ajax.loading");
 
   readonly priceAllProduct = this.page.locator(
     ":is(span.price > ins > span, span.price > span)"
@@ -16,9 +18,9 @@ export default class ShopPage {
   }
 
   async sortingProduct(sortingMethod: string) {
-    await this.page.waitForTimeout(1000);
     await this.page.waitForSelector(".orderby");
     await this.page.selectOption(".orderby", { label: sortingMethod });
+    await CommonSteps.waitForLoaderToAppearAndDisappear(this.loader);
   }
 
   async getRandomProductName(amount: number = 1) {
@@ -30,7 +32,6 @@ export default class ShopPage {
   }
 
   async verifyOrderItemSorting(sortingMethod: "greater" | "less") {
-    await this.page.waitForTimeout(3000);
     const texts = await this.priceAllProduct.allTextContents();
     const listTexts: string[] = Object.values(texts);
     console.log(listTexts);
@@ -43,5 +44,6 @@ export default class ShopPage {
 
   async switchMode(mode: string) {
     await CommonSteps.switchMode(this.page, mode);
+    await CommonSteps.waitForLoaderToAppearAndDisappear(this.loader);
   }
 }

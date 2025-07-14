@@ -81,4 +81,9 @@ export class CommonSteps {
       .replace(/\s{2,}/g, " ")
       .trim();
   }
+
+  static async waitForLoaderToAppearAndDisappear(loader: Locator) {
+    await loader.waitFor({ state: "visible", timeout: 5000 }).catch(() => {});
+    await loader.waitFor({ state: "detached" });
+  }
 }

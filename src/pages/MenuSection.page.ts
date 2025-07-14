@@ -32,12 +32,13 @@ export default class MenuSectionPage {
             return parseFloat(numeric);
           },
           {
-            timeout: 3000,
+            timeout: 5000,
             message: "Expected price to be updated and not 0.00",
           }
         )
         .not.toBe(0);
     }
+    console.log("price after: " + (await this.cartLink.first().innerText()));
     await this.cartLink.first().click();
   }
 
