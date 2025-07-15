@@ -7,9 +7,8 @@ export default class MyAccountPage {
   );
   readonly orderItems = this.page.locator("td.product-name a");
   readonly billingAddressDetails = this.page.locator("address");
-  readonly listRowOrder = this.page.locator(
-    "table.woocommerce-orders-table tbody tr"
-  );
+  readonly tableOrder = this.page.getByRole("table");
+  readonly rowOrder = this.tableOrder.getByRole("row");
 
   constructor(private readonly page: Page) {}
 
@@ -35,9 +34,8 @@ export default class MyAccountPage {
     total: string;
     action: string;
   }> {
-    const targetRow = this.listRowOrder.filter({ hasText: `#${orderId}` });
-    const cells = targetRow.locator("td");
-    const cellTexts = await cells.allTextContents();
+    const targetRow = this.rowOrder.filter({ hasText: `#${orderId}` });
+    const cellTexts = await targetRow.getByRole("cell").allTextContents();
     const [order, date, status, total, action] = cellTexts.map((text) =>
       text.trim()
     );

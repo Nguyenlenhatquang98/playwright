@@ -6,6 +6,7 @@ Ensure you have **Node.js >= 16** installed.
 
 ```bash
 npx playwright install
+npm i -D @playwright/test
 ```
 
 config playwright

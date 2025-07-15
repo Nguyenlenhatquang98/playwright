@@ -5,4 +5,19 @@ export default defineConfig({
   expect: {
     timeout: 10000,
   },
+  workers: 1,
+  reporter: "list",
+  projects: [
+    {
+      name: "OnlyChromium",
+      use: {
+        browserName: "chromium",
+        headless: false,
+        viewport: null,
+        launchOptions: {
+          args: ["--start-maximized"],
+        },
+      },
+    },
+  ],
 });
