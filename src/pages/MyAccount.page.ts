@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { CommonSteps } from "@utils/commonSteps";
 
 export default class MyAccountPage {

@@ -8,11 +8,15 @@ export default class CartPage {
   readonly updateCartButton = this.page.getByRole("button", {
     name: "Update cart",
   });
-  readonly clearCartButton = this.page.getByText("Clear shopping cart");
+  readonly clearCartButton = this.page.getByRole("link", {
+    name: /clear shopping cart/i,
+  });
   readonly emptyShoppingCartText = this.page.getByText(
     "YOUR SHOPPING CART IS EMPTY"
   );
-  readonly removeButtons = this.page.locator("a.remove-item");
+  readonly removeButtons = this.page.getByRole("link", {
+    name: /remove/i,
+  });
 
   constructor(private readonly page: Page) {}
 

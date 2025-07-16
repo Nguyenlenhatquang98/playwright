@@ -6,6 +6,7 @@ export default class ShopPage {
   readonly closeAdButton = this.page.locator("button.pum-close");
   readonly listView = this.page.locator(".products-list");
   readonly loader = this.page.locator(".et-loader.product-ajax.loading");
+  readonly ad = this.page.locator("#pum-5701");
 
   readonly priceAllProduct = this.page.locator(
     ":is(span.price > ins > span, span.price > span)"
@@ -15,6 +16,7 @@ export default class ShopPage {
 
   async turnOffAd() {
     await this.closeAdButton.click();
+    await expect(this.ad).toBeHidden();
   }
 
   async sortingProduct(sortingMethod: string) {
