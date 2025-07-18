@@ -11,6 +11,8 @@ export default defineConfig({
     {
       name: "OnlyChromium",
       use: {
+        screenshot: "on",
+        video: "on",
         browserName: "chromium",
         headless: false,
         viewport: null,

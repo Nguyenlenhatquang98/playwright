@@ -1,5 +1,4 @@
 import { test, expect } from "@utils/fixtures";
-import customerInfo from "@data/checkoutInfo.json";
 import { CommonSteps } from "@utils/commonSteps";
 import { CommonUtils } from "@utils/commonUtils";
 
