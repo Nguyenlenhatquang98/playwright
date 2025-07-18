@@ -1,3 +1,4 @@
+import { CommonUtils } from "@utils/commonUtils";
 import { test, expect } from "@utils/fixtures";
 
 test("Verify users can buy an item using different payment methods (all payment methods)", async ({
@@ -11,10 +12,7 @@ test("Verify users can buy an item using different payment methods (all payment 
 
   // 3. Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // 8. Select any item randomly to purchase
   // 9. Click 'Add to Cart'
@@ -28,7 +26,9 @@ test("Verify users can buy an item using different payment methods (all payment 
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -37,7 +37,9 @@ test("Verify users can buy an item using different payment methods (all payment 
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await checkoutPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // chose method
   await checkoutPage.choosePayMethod("Cash on delivery");

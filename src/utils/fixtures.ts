@@ -43,6 +43,7 @@ export const test = base.extend<FixtureOptions>({
     };
 
     await page.goto(TestConfig.baseURL);
+    await pages.menuSectionPage.turnOffAd();
 
     if (needsLogin) {
       await pages.loginPage.login();

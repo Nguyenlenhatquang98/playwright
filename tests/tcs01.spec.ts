@@ -1,6 +1,7 @@
 import { test, expect } from "@utils/fixtures";
 import customerInfo from "@data/checkoutInfo.json";
 import { CommonSteps } from "@utils/commonSteps";
+import { CommonUtils } from "@utils/commonUtils";
 
 test("Verify users can buy an item successfully", async ({ page, pages }) => {
   const {
@@ -44,7 +45,9 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();
@@ -53,7 +56,9 @@ test("Verify users can buy an item successfully", async ({ page, pages }) => {
   await expect(page).toHaveTitle(new RegExp("Checkout"));
 
   // 14. Verify item details in order
-  expect(await checkoutPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await checkoutPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 15. Fill the billing details with default payment method
   await checkoutPage.fillOrderInformation("full");

@@ -9,10 +9,7 @@ test("Verify users can clear the cart", async ({ page, pages }) => {
 
   // Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // Select any item randomly to purchase
   // Click 'Add to Cart'

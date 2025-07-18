@@ -8,10 +8,7 @@ test("Verify users can sort items by price", async ({ page, pages }) => {
 
   // 3. Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // 4.  Switch view to list
   await shopPage.switchMode("list");

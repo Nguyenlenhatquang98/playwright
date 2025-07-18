@@ -11,10 +11,7 @@ test("Verify users can update quantity of product in cart", async ({
 
   // 3. Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // 4. Add a product
   let randomProductName = await shopPage.getRandomProductName();

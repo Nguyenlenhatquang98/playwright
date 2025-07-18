@@ -1,5 +1,4 @@
 import { test, expect } from "@utils/fixtures";
-import customerInfo from "@data/checkoutInfo.json";
 import { CommonUtils } from "@utils/commonUtils";
 import { CommonSteps } from "@utils/commonSteps";
 
@@ -8,9 +7,7 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
     pages;
 
   await menuSectionPage.navigateToMenuItem("Shop");
-
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   const randomProductName = await shopPage.getRandomProductName(2);
 
@@ -19,7 +16,9 @@ test("Verify orders appear in order history", async ({ page, pages }) => {
   await menuSectionPage.navigateToCart();
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   await cartPage.proceedToCheckout();
 

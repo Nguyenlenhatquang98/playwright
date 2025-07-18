@@ -64,6 +64,9 @@ export default class CartPage {
   }
 
   async clearItems() {
+    await this.removeButtons
+      .waitFor({ state: "visible", timeout: 5000 })
+      .catch(() => {});
     const count = await this.removeButtons.count();
     while (!(await this.emptyShoppingCartText.isVisible()) && count > 0) {
       const count = await this.removeButtons.count();

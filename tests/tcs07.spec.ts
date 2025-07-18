@@ -10,10 +10,7 @@ test("Ensure proper error handling when mandatory fields are blank", async ({
 
   // Navigate to 'Shop' or 'Products' section
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // Add a product to cart
   const randomProductName = await shopPage.getRandomProductName();

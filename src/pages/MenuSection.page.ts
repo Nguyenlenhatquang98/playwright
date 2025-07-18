@@ -1,5 +1,6 @@
 import { TestConfig } from "@config/TestConfig";
 import { Locator, Page, expect } from "@playwright/test";
+import { CommonSteps } from "@utils/commonSteps";
 
 export default class MenuSectionPage {
   readonly menuAllDepartments1 = this.page.locator("#menu-all-departments-1");
@@ -8,6 +9,7 @@ export default class MenuSectionPage {
   readonly myAccountLink = this.page.getByRole("link", {
     name: TestConfig.app_username.split("@")[0],
   });
+  readonly ourSpringAd = this.page.locator("#popmake-5700");
 
   constructor(private readonly page: Page) {}
 
@@ -50,5 +52,12 @@ export default class MenuSectionPage {
 
   async navigateToMyAccount() {
     await this.myAccountLink.click();
+  }
+
+  async turnOffAd() {
+    await this.ourSpringAd
+      .waitFor({ state: "visible", timeout: 5000 })
+      .catch(() => {});
+    await this.ourSpringAd.getByRole("button").first().click();
   }
 }

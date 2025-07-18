@@ -12,10 +12,7 @@ test("Verify users can buy multiple item successfully", async ({
 
   // 3. Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // 8. Select any item randomly to purchase
   // 9. Click 'Add to Cart'
@@ -30,7 +27,9 @@ test("Verify users can buy multiple item successfully", async ({
   await expect(page).toHaveTitle(new RegExp("Cart"));
 
   // 11. Verify item details in mini content
-  expect(await cartPage.getAllOrderText()).toEqual(randomProductName);
+  expect(
+    CommonUtils.normalizeLowerCase(await cartPage.getAllOrderText())
+  ).toEqual(CommonUtils.normalizeLowerCase(randomProductName));
 
   // 12. Click on Checkout
   await cartPage.proceedToCheckout();

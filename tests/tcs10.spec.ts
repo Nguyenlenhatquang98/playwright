@@ -9,10 +9,7 @@ test("Verify users can post a review", async ({ page, pages }) => {
 
   // 3. Go to Shop page
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // 4. Click on a product to view detail
   let randomProductName = await shopPage.getRandomProductName();

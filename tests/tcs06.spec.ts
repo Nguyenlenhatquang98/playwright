@@ -11,10 +11,7 @@ test("Verify users try to buy an item without logging in (As a guest)", async ({
 
   // 2. Navigate to 'Shop' or 'Products' section
   await menuSectionPage.navigateToMenuItem("Shop");
-
-  // Turn off Ad
   await expect(page).toHaveTitle(/Products/);
-  await shopPage.turnOffAd();
 
   // 3. Add a product to cart
   const randomProductName = await shopPage.getRandomProductName();
